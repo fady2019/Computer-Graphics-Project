@@ -1,11 +1,10 @@
 #include "Menus.h"
 
-
 void createOwnMenu(HWND hwnd){
     HMENU hMenu = CreateMenu();
 
     AppendMenu(hMenu, MF_POPUP, (UINT_PTR)createFilePopupMenu(), "File");
-    AppendMenu(hMenu, MF_POPUP, (UINT_PTR)createColorPopupMenu(), "Color");
+    AppendMenu(hMenu, MF_POPUP, (UINT_PTR)createColorPopupMenu(), "Colors");
     AppendMenu(hMenu, MF_POPUP, (UINT_PTR)createLinePopupMenu() , "Line");
     AppendMenu(hMenu, MF_POPUP, (UINT_PTR)createCirclePopupMenu() , "Circle");
     AppendMenu(hMenu, MF_POPUP, (UINT_PTR)createEllipsePopupMenu() , "Ellipse");
@@ -25,6 +24,26 @@ HMENU createFilePopupMenu(){
     AppendMenu(hFileMenu, MF_STRING, LOAD_MENU, "load");
 
     return hFileMenu;
+}
+
+HMENU createColorPopupMenu(){
+    HMENU hColorMenu = CreateMenu();
+
+    AppendMenu(hColorMenu, MF_STRING, COLOR_BLACK, "black");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_RED, "red");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_YELLOW, "yellow");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_ORANGE, "orange");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_GREEN, "green");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_BLUE, "blue");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_PURPLE, "purple");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_TAEL, "tael");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_GRAY, "gray");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_CYAN, "cyan");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_GOLD, "gold");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_SILVER, "silver");
+
+
+    return hColorMenu;
 }
 
 HMENU createLinePopupMenu(){
@@ -69,11 +88,33 @@ HMENU createCurvePopupMenu(){
     return hCurveMenu;
 }
 
+HMENU createFillingCircleWithLinesPopupMenu(){
+    HMENU hFillingCircleWithLinesMenu = CreateMenu();
+
+    AppendMenu(hFillingCircleWithLinesMenu, MF_STRING, FILLING_CIR_WITH_LINES_Q1_MENU, "Quarter1");
+    AppendMenu(hFillingCircleWithLinesMenu, MF_STRING, FILLING_CIR_WITH_LINES_Q2_MENU, "Quarter2");
+    AppendMenu(hFillingCircleWithLinesMenu, MF_STRING, FILLING_CIR_WITH_LINES_Q3_MENU, "Quarter3");
+    AppendMenu(hFillingCircleWithLinesMenu, MF_STRING, FILLING_CIR_WITH_LINES_Q4_MENU, "Quarter4");
+
+    return hFillingCircleWithLinesMenu;
+}
+
+HMENU createFillingCircleWithCirclesPopupMenu(){
+    HMENU hFillingCircleWithCirclesMenu = CreateMenu();
+
+    AppendMenu(hFillingCircleWithCirclesMenu, MF_STRING, FILLING_CIR_WITH_CIRS_Q1_MENU, "Quarter1");
+    AppendMenu(hFillingCircleWithCirclesMenu, MF_STRING, FILLING_CIR_WITH_CIRS_Q2_MENU, "Quarter2");
+    AppendMenu(hFillingCircleWithCirclesMenu, MF_STRING, FILLING_CIR_WITH_CIRS_Q3_MENU, "Quarter3");
+    AppendMenu(hFillingCircleWithCirclesMenu, MF_STRING, FILLING_CIR_WITH_CIRS_Q4_MENU, "Quarter4");
+
+    return hFillingCircleWithCirclesMenu;
+}
+
 HMENU createFillingPopupMenu(){
     HMENU hFillingMenu = CreateMenu();
 
-    AppendMenu(hFillingMenu, MF_STRING, FILLING_CIR_WITH_LINES_MENU, "Circle With Lines");
-    AppendMenu(hFillingMenu, MF_STRING, FILLING_CIR_WITH_CIRS_MENU, "Circle With Circles");
+    AppendMenu(hFillingMenu, MF_POPUP, (UINT_PTR)createFillingCircleWithLinesPopupMenu(), "Circle With Lines");
+    AppendMenu(hFillingMenu, MF_POPUP, (UINT_PTR)createFillingCircleWithCirclesPopupMenu(), "Circle With Circles");
     AppendMenu(hFillingMenu, MF_STRING, FILLING_SQUARE_WITH_HERMIT_MENU, "Square With Hermit");
     AppendMenu(hFillingMenu, MF_STRING, FILLING_REC_WITH_BEZIER_MENU, "Rectangle With Bezier");
     AppendMenu(hFillingMenu, MF_STRING, FILLING_CONVEX_MENU, "Convex");
@@ -120,24 +161,4 @@ HMENU createClippingPopupMenu(){
     AppendMenu(hClippingMenu, MF_POPUP, (UINT_PTR)createClippingCirWinPopupMenu(), "Circle Window");
 
     return hClippingMenu;
-}
-
-HMENU createColorPopupMenu(){
-    HMENU hColorMenu = CreateMenu();
-
-    AppendMenu(hColorMenu, MF_STRING, COLOR_BLACK, "black");
-    AppendMenu(hColorMenu, MF_STRING, COLOR_RED, "red");
-    AppendMenu(hColorMenu, MF_STRING, COLOR_YELLOW, "yellow");
-    AppendMenu(hColorMenu, MF_STRING, COLOR_ORANGE, "orange");
-    AppendMenu(hColorMenu, MF_STRING, COLOR_GREEN, "green");
-    AppendMenu(hColorMenu, MF_STRING, COLOR_BLUE, "blue");
-    AppendMenu(hColorMenu, MF_STRING, COLOR_PURPLE, "purple");
-    AppendMenu(hColorMenu, MF_STRING, COLOR_TAEL, "tael");
-    AppendMenu(hColorMenu, MF_STRING, COLOR_GRAY, "gray");
-    AppendMenu(hColorMenu, MF_STRING, COLOR_CYAN, "cyan");
-    AppendMenu(hColorMenu, MF_STRING, COLOR_GOLD, "gold");
-    AppendMenu(hColorMenu, MF_STRING, COLOR_SILVER, "silver");
-
-
-    return hColorMenu;
 }

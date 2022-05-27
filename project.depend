@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1653671019 source:e:\fady\lectures\3.2\computer graphics\projects\1\project\main.cpp
+1653684713 source:e:\fady\lectures\3.2\computer graphics\projects\1\project\main.cpp
 	<iostream>
 	<tchar.h>
 	<windows.h>
@@ -11,18 +11,19 @@
 	"Curves.h"
 	"Filling.h"
 	"Clipping.h"
+	"Files.h"
 
-1653654581 e:\fady\lectures\3.2\computer graphics\projects\1\project\menus.h
+1653684162 e:\fady\lectures\3.2\computer graphics\projects\1\project\menus.h
 	<windows.h>
 
-1653654578 source:e:\fady\lectures\3.2\computer graphics\projects\1\project\menus.cpp
+1653683969 source:e:\fady\lectures\3.2\computer graphics\projects\1\project\menus.cpp
 	"Menus.h"
 
 1653664662 source:e:\fady\lectures\3.2\computer graphics\projects\1\project\common.cpp
 	"Common.h"
 	<cmath>
 
-1653665437 e:\fady\lectures\3.2\computer graphics\projects\1\project\common.h
+1653684191 e:\fady\lectures\3.2\computer graphics\projects\1\project\common.h
 	<iostream>
 	<windows.h>
 	"Menus.h"
@@ -73,16 +74,17 @@
 	"Curves.h"
 	"Common.h"
 
-1653670656 e:\fady\lectures\3.2\computer graphics\projects\1\project\filling.h
+1653682942 e:\fady\lectures\3.2\computer graphics\projects\1\project\filling.h
 	<windows.h>
 	"Common.h"
 
-1653671164 source:e:\fady\lectures\3.2\computer graphics\projects\1\project\filling.cpp
+1653683242 source:e:\fady\lectures\3.2\computer graphics\projects\1\project\filling.cpp
 	<windows.h>
 	"Common.h"
 	"Filling.h"
 	"Circles.h"
 	<stack>
+	"Lines.h"
 
 1653659510 source:e:\semester 6\computer-graphics-project\circles.cpp
 	"Circles.h"
@@ -93,20 +95,12 @@
 	<windows.h>
 	"Common.h"
 
-<<<<<<< Updated upstream
 1653672768 e:\semester 6\computer-graphics-project\common.h
-=======
-1653682026 e:\semester 6\computer-graphics-project\common.h
->>>>>>> Stashed changes
 	<iostream>
 	<windows.h>
 	"Menus.h"
 
-<<<<<<< Updated upstream
 1653659510 e:\semester 6\computer-graphics-project\menus.h
-=======
-1653682017 e:\semester 6\computer-graphics-project\menus.h
->>>>>>> Stashed changes
 	<windows.h>
 
 1653672767 source:e:\semester 6\computer-graphics-project\clipping.cpp
@@ -162,11 +156,7 @@
 	<algorithm>
 	<cmath>
 
-<<<<<<< Updated upstream
 1653674744 source:e:\semester 6\computer-graphics-project\main.cpp
-=======
-1653682075 source:e:\semester 6\computer-graphics-project\main.cpp
->>>>>>> Stashed changes
 	<iostream>
 	<tchar.h>
 	<windows.h>
@@ -178,14 +168,8 @@
 	"Curves.h"
 	"Filling.h"
 	"Clipping.h"
-<<<<<<< Updated upstream
 
 1653659510 source:e:\semester 6\computer-graphics-project\menus.cpp
-=======
-	"Files.h"
-
-1653682083 source:e:\semester 6\computer-graphics-project\menus.cpp
->>>>>>> Stashed changes
 	"Menus.h"
 
 1653679632 source:e:\semester 6\computer-graphics-project\files.cpp
@@ -193,5 +177,102 @@
 	"Files.h"
 
 1653679619 e:\semester 6\computer-graphics-project\files.h
+	<windows.h>
+
+1653650947 source:e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\circles.cpp
+	"Circles.h"
+	"Common.h"
+	<cmath>
+
+1653646607 e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\circles.h
+	<windows.h>
+	"Common.h"
+
+1653665437 e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\common.h
+	<iostream>
+	<windows.h>
+	"Menus.h"
+
+1653654581 e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\menus.h
+	<windows.h>
+
+1653665570 source:e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\clipping.cpp
+	<iostream>
+	"Clipping.h"
+	"Common.h"
+	"Lines.h"
+
+1653664456 e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\clipping.h
+	<windows.h>
+	"Common.h"
+
+1653586085 e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\lines.h
+	<windows.h>
+	"Common.h"
+
+1653664662 source:e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\common.cpp
+	"Common.h"
+	<cmath>
+
+1653655666 source:e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\curves.cpp
+	"Curves.h"
+	"Common.h"
+
+1653654543 e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\curves.h
+	<windows.h>
+	"Common.h"
+
+1653651059 source:e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\ellipses.cpp
+	"Ellipses.h"
+	"Common.h"
+	<math.h>
+	<algorithm>
+
+1653649355 e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\ellipses.h
+	<windows.h>
+	"Common.h"
+
+1653680562 source:e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\filling.cpp
+	<windows.h>
+	"Common.h"
+	"Filling.h"
+	"Circles.h"
+	<stack>
+	"Lines.h"
+
+1653680562 e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\filling.h
+	<windows.h>
+	"Common.h"
+
+1653645667 source:e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\lines.cpp
+	"Lines.h"
+	<algorithm>
+	<cmath>
+
+1653680562 source:e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\main.cpp
+	<iostream>
+	<tchar.h>
+	<windows.h>
+	"Menus.h"
+	"Common.h"
+	"Lines.h"
+	"Circles.h"
+	"Ellipses.h"
+	"Curves.h"
+	"Filling.h"
+	"Clipping.h"
+	"Files.h"
+
+1653680562 e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\files.h
+	<windows.h>
+
+1653654578 source:e:\fady\lectures\3.2\computer graphics\projects\1\00github\computer-graphics-project\menus.cpp
+	"Menus.h"
+
+1653682062 source:e:\fady\lectures\3.2\computer graphics\projects\1\project\files.cpp
+	<windows.h>
+	"Files.h"
+
+1653682079 e:\fady\lectures\3.2\computer graphics\projects\1\project\files.h
 	<windows.h>
 

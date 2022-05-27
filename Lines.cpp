@@ -44,14 +44,17 @@ void lineDDA(HDC hdc, Point* points, int pointsNum, COLORREF color)
     }
 }
 
-void lineParametric(HDC hdc, Point* points, int pointsNum, COLORREF color) {
+void lineParametric(HDC hdc, Point* points, int pointsNum, COLORREF color)
+{
     if(pointsNum < 2){
         return;
     }
+
     Point p1 = points[0];
     Point p2 = points[1];
     double dx = p2.x - p1.x;
     double dy = p2.y - p1.y;
+
     for (double t = 0; t < 1; t += 0.001) {
         int x = p1.x + (dx * t);
         int y = p1.y + (dy * t);

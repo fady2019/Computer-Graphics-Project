@@ -4,10 +4,10 @@
 #include <windows.h>
 
 enum MenuIDs {
+    /// File Menu IDs
     CLEAR_MENU,
     SAVE_MENU,
     LOAD_MENU,
-
     /// Color Menu IDs
     COLOR_BLACK,
     COLOR_RED,
@@ -21,7 +21,6 @@ enum MenuIDs {
     COLOR_CYAN,
     COLOR_GOLD,
     COLOR_SILVER,
-
     /// Line Menu IDs
     LINE_DDA_MENU,
     LINE_MID_MENU,
@@ -41,8 +40,14 @@ enum MenuIDs {
     CURVE_BEZIER_MENU,
     CURVE_CAR_SPL_MENU,
     /// Filling Menu IDs
-    FILLING_CIR_WITH_LINES_MENU,
-    FILLING_CIR_WITH_CIRS_MENU,
+    FILLING_CIR_WITH_LINES_Q1_MENU,
+    FILLING_CIR_WITH_LINES_Q2_MENU,
+    FILLING_CIR_WITH_LINES_Q3_MENU,
+    FILLING_CIR_WITH_LINES_Q4_MENU,
+    FILLING_CIR_WITH_CIRS_Q1_MENU,
+    FILLING_CIR_WITH_CIRS_Q2_MENU,
+    FILLING_CIR_WITH_CIRS_Q3_MENU,
+    FILLING_CIR_WITH_CIRS_Q4_MENU,
     FILLING_SQUARE_WITH_HERMIT_MENU,
     FILLING_REC_WITH_BEZIER_MENU,
     FILLING_CONVEX_MENU,
@@ -56,15 +61,13 @@ enum MenuIDs {
     CLIPPING_SQUARE_WIN_POINT_MENU,
     CLIPPING_SQUARE_WIN_LINE_MENU,
     CLIPPING_CIR_WIN_POINT_MENU,
-    CLIPPING_CIR_WIN_LINE_MENU,
-
-
+    CLIPPING_CIR_WIN_LINE_MENU
 };
 
 void createOwnMenu(HWND hwnd);
 HMENU createFilePopupMenu();
 
-/// color menu
+/// colors menu
 HMENU createColorPopupMenu();
 /// line menu
 HMENU createLinePopupMenu();
@@ -75,6 +78,8 @@ HMENU createEllipsePopupMenu();
 /// curve menu
 HMENU createCurvePopupMenu();
 /// filling Menu
+HMENU createFillingCircleWithLinesPopupMenu();
+HMENU createFillingCircleWithCirclesPopupMenu();
 HMENU createFillingPopupMenu();
 /// clipping menu
 HMENU createClippingPopupMenu();

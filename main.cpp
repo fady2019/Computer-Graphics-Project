@@ -104,6 +104,27 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
     {
         case WM_COMMAND:
         {
+            switch(wParam)
+            {
+                /// File Menu
+                case CLEAR_MENU:{clearScreen(hwnd); return 0;}
+                case SAVE_MENU:{return 0;}
+                case LOAD_MENU:{return 0;}
+                /// Color Menu
+                case COLOR_BLACK:{windowSys.color = sys.color = BLACK_COLOR; return 0;}
+                case COLOR_RED:{windowSys.color = sys.color = RED_COLOR; return 0;}
+                case COLOR_YELLOW:{windowSys.color = sys.color = YELLOW_COLOR; return 0;}
+                case COLOR_ORANGE:{windowSys.color = sys.color = ORANGE_COLOR; return 0;}
+                case COLOR_GREEN:{windowSys.color = sys.color = GREEN_COLOR; return 0;}
+                case COLOR_BLUE:{windowSys.color = sys.color = BLUE_COLOR; return 0;}
+                case COLOR_PURPLE:{windowSys.color = sys.color = PURPLE_COLOR; return 0;}
+                case COLOR_TAEL:{windowSys.color = sys.color = TAEL_COLOR; return 0;}
+                case COLOR_GRAY:{windowSys.color = sys.color = GRAY_COLOR; return 0;}
+                case COLOR_CYAN:{windowSys.color = sys.color = CYAN_COLOR; return 0;}
+                case COLOR_GOLD:{windowSys.color = sys.color = GOLD_COLOR; return 0;}
+                case COLOR_SILVER:{windowSys.color = sys.color = SILVER_COLOR; return 0;}
+            }
+
             window = 0;
 
             windowSys.shaper=0;
@@ -117,24 +138,6 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
             cout<<"Current Mode Number: "<<sys.mode<<endl;
             switch(wParam)
             {
-                case CLEAR_MENU:{clearScreen(hwnd);break;}
-                case SAVE_MENU:{break;}
-                case LOAD_MENU:{break;}
-
-                /// Color Menu
-                case COLOR_BLACK:{sys.color=BLACK_COLOR; break;}
-                case COLOR_RED:{sys.color=RED_COLOR; break;}
-                case COLOR_YELLOW:{sys.color=YELLOW_COLOR; break;}
-                case COLOR_ORANGE:{sys.color=ORANGE_COLOR; break;}
-                case COLOR_GREEN:{sys.color=GREEN_COLOR; break;}
-                case COLOR_BLUE:{sys.color=BLUE_COLOR; break;}
-                case COLOR_PURPLE:{sys.color=PURPLE_COLOR; break;}
-                case COLOR_TAEL:{sys.color=TAEL_COLOR; break;}
-                case COLOR_GRAY:{sys.color=GRAY_COLOR; break;}
-                case COLOR_CYAN:{sys.color=CYAN_COLOR; break;}
-                case COLOR_GOLD:{sys.color=GOLD_COLOR; break;}
-                case COLOR_SILVER:{sys.color=SILVER_COLOR; break;}
-
                 /// Line Menu
                 case LINE_DDA_MENU:{sys.maxCount=2; sys.shaper=&lineDDA; break;}
                 case LINE_MID_MENU:{sys.maxCount=2; sys.shaper=&lineMidpoint; break;}
@@ -154,8 +157,14 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                 case CURVE_BEZIER_MENU: {sys.maxCount=4; sys.shaper=&bezierCurve; break;}
                 case CURVE_CAR_SPL_MENU: {sys.maxCount=INT_MAX; sys.shaper=&cardinalSplineCurve; break;}
                 /// Filling Menu
-                case FILLING_CIR_WITH_LINES_MENU: {sys.maxCount=2;sys.shaper=&lineFilling;break;}
-                case FILLING_CIR_WITH_CIRS_MENU: {break;}
+                case FILLING_CIR_WITH_LINES_Q1_MENU: {sys.maxCount=2; sys.shaper=&fillingQuarter1ByLines; break;}
+                case FILLING_CIR_WITH_LINES_Q2_MENU: {sys.maxCount=2; sys.shaper=&fillingQuarter2ByLines; break;}
+                case FILLING_CIR_WITH_LINES_Q3_MENU: {sys.maxCount=2; sys.shaper=&fillingQuarter3ByLines; break;}
+                case FILLING_CIR_WITH_LINES_Q4_MENU: {sys.maxCount=2; sys.shaper=&fillingQuarter4ByLines; break;}
+                case FILLING_CIR_WITH_CIRS_Q1_MENU: {break;}
+                case FILLING_CIR_WITH_CIRS_Q2_MENU: {break;}
+                case FILLING_CIR_WITH_CIRS_Q3_MENU: {break;}
+                case FILLING_CIR_WITH_CIRS_Q4_MENU: {break;}
                 case FILLING_SQUARE_WITH_HERMIT_MENU: {break;}
                 case FILLING_REC_WITH_BEZIER_MENU: {break;}
                 case FILLING_CONVEX_MENU: {break;}

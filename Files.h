@@ -1,5 +1,7 @@
+#ifndef FILES_H_INCLUDED
+#define FILES_H_INCLUDED
 #include <windows.h>
 
-
-// Implement item to clear screen from shapes
 void clearScreen(HWND);
+
+#endif // FILES_H_INCLUDED

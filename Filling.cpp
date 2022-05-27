@@ -71,7 +71,7 @@ void nonRecursiveFloodFill(HDC hdc, Point* points, int pointsNum, COLORREF color
 }
 
 
-void lineFillingAlgorithm(HDC hdc,Point* p, int q,COLORREF color)
+void fillingQuarterByLine(HDC hdc, Point* p, int q, COLORREF color)
 {
     if(q==1)
     {
@@ -97,10 +97,10 @@ void lineFillingAlgorithm(HDC hdc,Point* p, int q,COLORREF color)
     SetPixel(hdc, p[1].x+p[0].y, p[1].y+p[0].x, color);
     points[0] = p[1];
     points[1] = Point(p[1].x+p[0].y, p[1].y+p[0].x);
-    lineParametric(hdc, points, 2,color);
+    lineParametric(hdc, points, 2, color);
 }
 
-void lineFilling(HDC hdc, Point* points, int pointsNum, COLORREF color)
+void fillingQuarterByLines(HDC hdc, Point* points, int quarter, COLORREF color)
 {
     circleDirect(hdc, points, 2, color);
 
@@ -122,8 +122,42 @@ void lineFilling(HDC hdc, Point* points, int pointsNum, COLORREF color)
             y--;
         }
         Point p[2] = {Point(x,y), points[0]};
-        lineFillingAlgorithm(hdc, p, 3, color);
+        fillingQuarterByLine(hdc, p, quarter, color);
     }
 }
 
+void fillingQuarter1ByLines(HDC hdc, Point* points, int pointsNum, COLORREF color){
+    if(pointsNum < 2)
+    {
+        return;
+    }
 
+    fillingQuarterByLines(hdc, points, 1, color);
+}
+
+void fillingQuarter2ByLines(HDC hdc, Point* points, int pointsNum, COLORREF color){
+    if(pointsNum < 2)
+    {
+        return;
+    }
+
+    fillingQuarterByLines(hdc, points, 2, color);
+}
+
+void fillingQuarter3ByLines(HDC hdc, Point* points, int pointsNum, COLORREF color){
+    if(pointsNum < 2)
+    {
+        return;
+    }
+
+    fillingQuarterByLines(hdc, points, 3, color);
+}
+
+void fillingQuarter4ByLines(HDC hdc, Point* points, int pointsNum, COLORREF color){
+    if(pointsNum < 2)
+    {
+        return;
+    }
+
+    fillingQuarterByLines(hdc, points, 4, color);
+}

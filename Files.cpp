@@ -5,3 +5,4 @@
 void clearScreen(HWND hwnd){
     InvalidateRect (hwnd, NULL, TRUE);
 }
+
