@@ -16,6 +16,7 @@
 #include "Curves.h"
 #include "Filling.h"
 #include "Clipping.h"
+#include "Files.h"
 
 using namespace std;
 
@@ -116,7 +117,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
             cout<<"Current Mode Number: "<<sys.mode<<endl;
             switch(wParam)
             {
-                case CLEAR_MENU:{break;}
+                case CLEAR_MENU:{clearScreen(hwnd);break;}
                 case SAVE_MENU:{break;}
                 case LOAD_MENU:{break;}
                 /// Line Menu
@@ -138,7 +139,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                 case CURVE_BEZIER_MENU: {sys.maxCount=4; sys.shaper=&bezierCurve; break;}
                 case CURVE_CAR_SPL_MENU: {sys.maxCount=INT_MAX; sys.shaper=&cardinalSplineCurve; break;}
                 /// Filling Menu
-                case FILLING_CIR_WITH_LINES_MENU: {break;}
+                case FILLING_CIR_WITH_LINES_MENU: {sys.maxCount=2;sys.shaper=&lineFilling;break;}
                 case FILLING_CIR_WITH_CIRS_MENU: {break;}
                 case FILLING_SQUARE_WITH_HERMIT_MENU: {break;}
                 case FILLING_REC_WITH_BEZIER_MENU: {break;}

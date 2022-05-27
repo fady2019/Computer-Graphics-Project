@@ -6,5 +6,6 @@
 
 void recursiveFloodFill(HDC, Point*, int, COLORREF);
 void nonRecursiveFloodFill(HDC, Point*, int, COLORREF);
+void lineFilling(HDC, Point*, int, COLORREF);
 
 #endif
