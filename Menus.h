@@ -7,6 +7,21 @@ enum MenuIDs {
     CLEAR_MENU,
     SAVE_MENU,
     LOAD_MENU,
+
+    /// Color Menu IDs
+    COLOR_BLACK,
+    COLOR_RED,
+    COLOR_YELLOW,
+    COLOR_ORANGE,
+    COLOR_GREEN,
+    COLOR_BLUE,
+    COLOR_PURPLE,
+    COLOR_TAEL,
+    COLOR_GRAY,
+    COLOR_CYAN,
+    COLOR_GOLD,
+    COLOR_SILVER,
+
     /// Line Menu IDs
     LINE_DDA_MENU,
     LINE_MID_MENU,
@@ -41,12 +56,16 @@ enum MenuIDs {
     CLIPPING_SQUARE_WIN_POINT_MENU,
     CLIPPING_SQUARE_WIN_LINE_MENU,
     CLIPPING_CIR_WIN_POINT_MENU,
-    CLIPPING_CIR_WIN_LINE_MENU
+    CLIPPING_CIR_WIN_LINE_MENU,
+
+
 };
 
 void createOwnMenu(HWND hwnd);
 HMENU createFilePopupMenu();
 
+/// color menu
+HMENU createColorPopupMenu();
 /// line menu
 HMENU createLinePopupMenu();
 /// circle menu

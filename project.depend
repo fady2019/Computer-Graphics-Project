@@ -93,12 +93,20 @@
 	<windows.h>
 	"Common.h"
 
+<<<<<<< Updated upstream
 1653672768 e:\semester 6\computer-graphics-project\common.h
+=======
+1653682026 e:\semester 6\computer-graphics-project\common.h
+>>>>>>> Stashed changes
 	<iostream>
 	<windows.h>
 	"Menus.h"
 
+<<<<<<< Updated upstream
 1653659510 e:\semester 6\computer-graphics-project\menus.h
+=======
+1653682017 e:\semester 6\computer-graphics-project\menus.h
+>>>>>>> Stashed changes
 	<windows.h>
 
 1653672767 source:e:\semester 6\computer-graphics-project\clipping.cpp
@@ -154,7 +162,11 @@
 	<algorithm>
 	<cmath>
 
+<<<<<<< Updated upstream
 1653674744 source:e:\semester 6\computer-graphics-project\main.cpp
+=======
+1653682075 source:e:\semester 6\computer-graphics-project\main.cpp
+>>>>>>> Stashed changes
 	<iostream>
 	<tchar.h>
 	<windows.h>
@@ -166,8 +178,14 @@
 	"Curves.h"
 	"Filling.h"
 	"Clipping.h"
+<<<<<<< Updated upstream
 
 1653659510 source:e:\semester 6\computer-graphics-project\menus.cpp
+=======
+	"Files.h"
+
+1653682083 source:e:\semester 6\computer-graphics-project\menus.cpp
+>>>>>>> Stashed changes
 	"Menus.h"
 
 1653679632 source:e:\semester 6\computer-graphics-project\files.cpp

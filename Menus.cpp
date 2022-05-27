@@ -1,10 +1,11 @@
 #include "Menus.h"
 
+
 void createOwnMenu(HWND hwnd){
     HMENU hMenu = CreateMenu();
 
     AppendMenu(hMenu, MF_POPUP, (UINT_PTR)createFilePopupMenu(), "File");
-    AppendMenu(hMenu, MF_POPUP, NULL, "Colors");
+    AppendMenu(hMenu, MF_POPUP, (UINT_PTR)createColorPopupMenu(), "Color");
     AppendMenu(hMenu, MF_POPUP, (UINT_PTR)createLinePopupMenu() , "Line");
     AppendMenu(hMenu, MF_POPUP, (UINT_PTR)createCirclePopupMenu() , "Circle");
     AppendMenu(hMenu, MF_POPUP, (UINT_PTR)createEllipsePopupMenu() , "Ellipse");
@@ -119,4 +120,24 @@ HMENU createClippingPopupMenu(){
     AppendMenu(hClippingMenu, MF_POPUP, (UINT_PTR)createClippingCirWinPopupMenu(), "Circle Window");
 
     return hClippingMenu;
+}
+
+HMENU createColorPopupMenu(){
+    HMENU hColorMenu = CreateMenu();
+
+    AppendMenu(hColorMenu, MF_STRING, COLOR_BLACK, "black");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_RED, "red");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_YELLOW, "yellow");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_ORANGE, "orange");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_GREEN, "green");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_BLUE, "blue");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_PURPLE, "purple");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_TAEL, "tael");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_GRAY, "gray");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_CYAN, "cyan");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_GOLD, "gold");
+    AppendMenu(hColorMenu, MF_STRING, COLOR_SILVER, "silver");
+
+
+    return hColorMenu;
 }

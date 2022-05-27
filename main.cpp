@@ -120,6 +120,21 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                 case CLEAR_MENU:{clearScreen(hwnd);break;}
                 case SAVE_MENU:{break;}
                 case LOAD_MENU:{break;}
+
+                /// Color Menu
+                case COLOR_BLACK:{sys.color=BLACK_COLOR; break;}
+                case COLOR_RED:{sys.color=RED_COLOR; break;}
+                case COLOR_YELLOW:{sys.color=YELLOW_COLOR; break;}
+                case COLOR_ORANGE:{sys.color=ORANGE_COLOR; break;}
+                case COLOR_GREEN:{sys.color=GREEN_COLOR; break;}
+                case COLOR_BLUE:{sys.color=BLUE_COLOR; break;}
+                case COLOR_PURPLE:{sys.color=PURPLE_COLOR; break;}
+                case COLOR_TAEL:{sys.color=TAEL_COLOR; break;}
+                case COLOR_GRAY:{sys.color=GRAY_COLOR; break;}
+                case COLOR_CYAN:{sys.color=CYAN_COLOR; break;}
+                case COLOR_GOLD:{sys.color=GOLD_COLOR; break;}
+                case COLOR_SILVER:{sys.color=SILVER_COLOR; break;}
+
                 /// Line Menu
                 case LINE_DDA_MENU:{sys.maxCount=2; sys.shaper=&lineDDA; break;}
                 case LINE_MID_MENU:{sys.maxCount=2; sys.shaper=&lineMidpoint; break;}

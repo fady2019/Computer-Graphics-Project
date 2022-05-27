@@ -5,6 +5,19 @@
 #include <windows.h>
 #include "Menus.h"
 
+#define BLACK_COLOR     RGB(0,0,0)
+#define RED_COLOR       RGB(255,0,0)
+#define ORANGE_COLOR    RGB(255,128,0)
+#define YELLOW_COLOR    RGB(255,255,0)
+#define GREEN_COLOR     RGB(0,255,0)
+#define BLUE_COLOR      RGB(0,0,255)
+#define PURPLE_COLOR    RGB(128,0,128)
+#define TAEL_COLOR      RGB(0,128,128)
+#define GRAY_COLOR      RGB(128,128,128)
+#define CYAN_COLOR      RGB(0,255,255)
+#define GOLD_COLOR      RGB(255,215,0)
+#define SILVER_COLOR    RGB(192,192,192)
+
 using namespace std;
 
 struct Point
@@ -41,7 +54,7 @@ struct System
     int maxCount=0;
     T (*shaper) (HDC, Point* , int, COLORREF) = 0;
     MenuIDs mode;
-    COLORREF color = RGB(0,0,0);
+    COLORREF color = BLACK_COLOR;
 };
 
 struct Window{

@@ -47,6 +47,8 @@
 		<Unit filename="Curves.h" />
 		<Unit filename="Ellipses.cpp" />
 		<Unit filename="Ellipses.h" />
+		<Unit filename="Files.cpp" />
+		<Unit filename="Files.h" />
 		<Unit filename="Filling.cpp" />
 		<Unit filename="Filling.h" />
 		<Unit filename="Lines.cpp" />
