@@ -44,23 +44,18 @@ void lineDDA(HDC hdc, Point* points, int pointsNum, COLORREF color)
     }
 }
 
-void lineParametric(HDC hdc, Point* points, int pointsNum, COLORREF color)
-{
+void lineParametric(HDC hdc, Point* points, int pointsNum, COLORREF color) {
     if(pointsNum < 2){
         return;
     }
-
-    Point p1 = points[0], p2 = points[1];
-    int dx = p2.x - p1.x;
-    int dy = p2.y - p1.y;
-
-    for(float t=0; t <= 1; )
-    {
-        double x = p1.x + t*(p2.x - p1.x);
-        double y = p1.y + t*(p2.y - p1.y);
-        SetPixel(hdc, roundNum(x), roundNum(y), color);
-
-        t+= 1.0/std::max(abs(dx), abs(dy));
+    Point p1 = points[0];
+    Point p2 = points[1];
+    double dx = p2.x - p1.x;
+    double dy = p2.y - p1.y;
+    for (double t = 0; t < 1; t += 0.001) {
+        int x = p1.x + (dx * t);
+        int y = p1.y + (dy * t);
+        SetPixel(hdc, x, y, color);
     }
 }
 
@@ -84,7 +79,7 @@ void lineMidpoint(HDC hdc, Point* points, int pointsNum, COLORREF color)
         }
 
         int ySign = dy > 0 ? 1 : -1;
-		
+
 		d = dx - (2*ySign) *dy;
 		d1 = 2 * (dx - (dy * ySign));
 		d2 = (-2*ySign) * dy;
@@ -112,7 +107,7 @@ void lineMidpoint(HDC hdc, Point* points, int pointsNum, COLORREF color)
         }
 
 		int xSign = dx > 0 ? 1 : -1;
-		
+
 		d = dy - (2*xSign) *dx;
 		d1 = 2 * (dy - (dx * xSign));
 		d2 = (-2*xSign) * dx;

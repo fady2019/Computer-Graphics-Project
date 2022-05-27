@@ -88,7 +88,7 @@ void lineFillingAlgorithm(HDC hdc,Point* p, int q,COLORREF color)
     }
     SetPixel(hdc, p[1].x+p[0].x, p[1].y+p[0].y, color);
     Point points[2] = {p[1], Point(p[1].x+p[0].x, p[1].y+p[0].y)};
-    lineParametric(hdc, points,2,color);
+    lineParametric(hdc, points, 2, color);
     if(q==1 || q==3)
     {
         p[0].y = -p[0].y;
@@ -97,7 +97,7 @@ void lineFillingAlgorithm(HDC hdc,Point* p, int q,COLORREF color)
     SetPixel(hdc, p[1].x+p[0].y, p[1].y+p[0].x, color);
     points[0] = p[1];
     points[1] = Point(p[1].x+p[0].y, p[1].y+p[0].x);
-    lineParametric(hdc, points, 2, color);
+    lineParametric(hdc, points, 2,color);
 }
 
 void lineFilling(HDC hdc, Point* points, int pointsNum, COLORREF color)
