@@ -2,6 +2,7 @@
 #include "Clipping.h"
 #include "Common.h"
 #include "Lines.h"
+#include "Circles.h"
 
 using namespace std;
 
@@ -153,5 +154,39 @@ void clippingLineWithSquareWindow(HDC hdc, Point* points, int pointsNum, COLORRE
     if(clipLine(sqWin, point1, point2)){
         Point line[2] = {Point(point1.x, point1.y), Point(point2.x, point2.y)};
         lineDDA(hdc, line, 2, color);
+    }
+}
+
+
+/// circle clipping
+Window* getCircleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
+    if(pointsNum < 2){
+        return 0;
+    }
+
+    circleDirect(hdc, points, 2, color);
+
+    Window* win = new Window;
+    win->points = points;
+    win->pointsNum = 2;
+
+    return win;
+}
+
+void clippingPointWithCircleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
+    if(pointsNum < 3){
+        return;
+    }
+
+    int R = getLineLen(points[0], points[1]);
+    int r = getLineLen(points[0],points[2]);
+
+    if(r <= R)
+    {
+        cout<<"Point is inside"<<endl;
+        SetPixel(hdc, points[2].x, points[2].y, color);
+    }else{
+        cout<<"Point is outside"<<endl;
+        SetPixel(hdc, points[2].x, points[2].y, RGB(255,255,255));
     }
 }

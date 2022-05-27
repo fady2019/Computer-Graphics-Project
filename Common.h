@@ -54,7 +54,7 @@ struct System
     int maxCount=0;
     T (*shaper) (HDC, Point* , int, COLORREF) = 0;
     MenuIDs mode;
-    COLORREF color = RGB(0,0,0);
+    COLORREF color = GOLD_COLOR;
 };
 
 struct Window{
