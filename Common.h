@@ -1,8 +1,11 @@
 #ifndef COMMON_H_INCLUDED
 #define COMMON_H_INCLUDED
 
+#include <iostream>
 #include <windows.h>
 #include "Menus.h"
+
+using namespace std;
 
 struct Point
 {
@@ -23,16 +26,27 @@ struct Point
     {
         return Point(x*num, y*num);
     }
+
+    void print()
+    {
+        cout<<"Point ("<<this->x<<","<<this->y<<")"<<endl;
+    }
 };
 
+template <typename T>
 struct System
 {
     Point points[100];
     int count=0;
     int maxCount=0;
-    void (*shaper) (HDC, Point* , int, COLORREF) = 0;
+    T (*shaper) (HDC, Point* , int, COLORREF) = 0;
     MenuIDs mode;
     COLORREF color = RGB(0,0,0);
+};
+
+struct Window{
+    Point* points=0;
+    int pointsNum=0;
 };
 
 union OutCode
@@ -50,5 +64,6 @@ void draw8Points(HDC, Point, int, int, COLORREF);
 void draw4Points(HDC, Point, int, int, COLORREF);
 int getLineLen(Point, Point);
 Point getSmallPoint(Point, Point);
+Point* mergeTwoArray(Point*, int, Point*, int);
 
 #endif

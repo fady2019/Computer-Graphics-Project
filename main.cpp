@@ -14,6 +14,7 @@
 #include "Circles.h"
 #include "Ellipses.h"
 #include "Curves.h"
+#include "Filling.h"
 #include "Clipping.h"
 
 using namespace std;
@@ -93,16 +94,25 @@ int WINAPI WinMain (HINSTANCE hThisInstance,
 
 LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    static System sys;
+    static System<void> sys;
+    static System<Window*> windowSys;
+    static Window* window;
     static HDC hdc = GetDC(hwnd);
 
     switch (message)                  /* handle the messages */
     {
         case WM_COMMAND:
         {
+            window = 0;
+
+            windowSys.shaper=0;
+            windowSys.count=0;
+            windowSys.mode = (MenuIDs)wParam;
+
             sys.shaper = 0;
-            sys.mode = (MenuIDs)wParam;
             sys.count = 0;
+            sys.mode = (MenuIDs)wParam;
+
             cout<<"Current Mode Number: "<<sys.mode<<endl;
             switch(wParam)
             {
@@ -134,14 +144,22 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                 case FILLING_REC_WITH_BEZIER_MENU: {break;}
                 case FILLING_CONVEX_MENU: {break;}
                 case FILLING_NON_CONVEX_MENU: {break;}
-                case FILLING_RECUR_FF_MENU: {break;}
-                case FILLING_NON_RECUR_FF_MENU: {break;}
+                case FILLING_RECUR_FF_MENU: {sys.maxCount=2; sys.shaper=&recursiveFloodFill; break;}
+                case FILLING_NON_RECUR_FF_MENU: {sys.maxCount=2; sys.shaper=&nonRecursiveFloodFill; break;}
                 /// Clipping Menu
                 case CLIPPING_REC_WIN_POINT_MENU: {break;}
                 case CLIPPING_REC_WIN_LINE_MENU: {break;}
                 case CLIPPING_REC_WIN_POL_MENU: {break;}
-                case CLIPPING_SQUARE_WIN_POINT_MENU: {sys.maxCount=INT_MAX; sys.shaper=&clippingPointWithSquareWindow; break;}
-                case CLIPPING_SQUARE_WIN_LINE_MENU: {sys.maxCount=INT_MAX; sys.shaper=&clippingLineWithSquareWindow; break;}
+                case CLIPPING_SQUARE_WIN_POINT_MENU: {
+                    windowSys.maxCount=2; windowSys.shaper=getSquareWindow;
+                    sys.maxCount=1; sys.shaper=&clippingPointWithSquareWindow;
+                    break;
+                }
+                case CLIPPING_SQUARE_WIN_LINE_MENU: {
+                    windowSys.maxCount=2; windowSys.shaper=getSquareWindow;
+                    sys.maxCount=2; sys.shaper=&clippingLineWithSquareWindow;
+                    break;
+                }
                 case CLIPPING_CIR_WIN_POINT_MENU: {break;}
                 case CLIPPING_CIR_WIN_LINE_MENU: {break;}
             }
@@ -149,10 +167,38 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
         }
 
         case WM_LBUTTONDOWN:{
-            sys.points[sys.count++] = Point(LOWORD(lParam), HIWORD(lParam));
-            SetPixel(hdc, LOWORD(lParam), HIWORD(lParam), sys.color);
+            int x=LOWORD(lParam);
+            int y=HIWORD(lParam);
+
+            Point enteredPoint = Point(x,y);
+            enteredPoint.print();
+
+            SetPixel(hdc, x, y, sys.color);
+
+            if(windowSys.shaper != 0){
+                windowSys.points[windowSys.count++] = enteredPoint;
+                if(windowSys.count == windowSys.maxCount){
+                    window = windowSys.shaper(hdc, windowSys.points, windowSys.count, windowSys.color);
+                    windowSys.shaper = 0;
+                }
+
+                break;
+            }
+
+            sys.points[sys.count++] = enteredPoint;
             if(sys.count == sys.maxCount){
-                sys.shaper(hdc, sys.points, sys.count, sys.color);
+                Point* points = 0;
+                int pointsSize = 0;
+
+                if(window != 0){
+                    points = mergeTwoArray(window->points, window->pointsNum, sys.points, sys.count);
+                    pointsSize = window->pointsNum + sys.count;
+                }else{
+                    points = sys.points;
+                    pointsSize = sys.count;
+                }
+
+                sys.shaper(hdc, points, pointsSize, sys.color);
                 sys.count = 0;
             }
 

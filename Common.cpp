@@ -49,3 +49,22 @@ int getLineLen(Point p1, Point p2)
 Point getSmallPoint(Point p1, Point p2){
     return getLineLen(Point(0,0), p1) < getLineLen(Point(0,0), p2)? p1 : p2;
 }
+
+Point* mergeTwoArray(Point* points1, int points1Num, Point* points2, int points2Num){
+    int arraySize = points1Num+points2Num;
+    Point* mergedArray = new Point[arraySize];
+
+    int j=0;
+
+    for(int i=0; i<points1Num; i++){
+        mergedArray[j] = points1[i];
+        j++;
+    }
+
+    for(int i=0; i<points2Num; i++){
+        mergedArray[j] = points2[i];
+        j++;
+    }
+
+    return mergedArray;
+}

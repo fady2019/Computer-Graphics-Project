@@ -5,7 +5,14 @@
 
 using namespace std;
 
-Point* getSquareWindow(HDC hdc, Point p1, Point p2, COLORREF color){
+Window* getSquareWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
+    if(pointsNum < 2){
+        return 0;
+    }
+
+    Point p1 = points[0];
+    Point p2 = points[1];
+
     int dist = getLineLen(p1, p2);
     Point smallPoint = getSmallPoint(p1, p2);
 
@@ -27,29 +34,33 @@ Point* getSquareWindow(HDC hdc, Point p1, Point p2, COLORREF color){
         lineDDA(hdc, line, 2, color);
     }
 
-    return sp;
+    Window* win = new Window;
+    win->points = sp;
+    win->pointsNum = 4;
+
+    return win;
 }
 
 void clippingPointWithSquareWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 3){
+    if(pointsNum < 5){
         return;
     }
 
-    Point* sqWin = getSquareWindow(hdc, points[0], points[1], color);
+    Point sqWin[] = {points[0], points[1], points[2], points[3]};
 
-    for(int i=2; i<pointsNum; i++){
-        if(
-           points[i].x >= sqWin[0].x &&
-           points[i].x <= sqWin[2].x &&
-           points[i].y >= sqWin[0].y &&
-           points[i].y <= sqWin[2].y
-        ){
-            cout<<"Point is inside"<<endl;
-            SetPixel(hdc, points[i].x, points[i].y, color);
-        }else{
-            cout<<"Point is outside"<<endl;
-            //SetPixel(hdc, points[i].x, points[i].y, RGB(255,255,255));
-        }
+    Point point = points[4];
+
+    if(
+       point.x >= sqWin[0].x &&
+       point.x <= sqWin[2].x &&
+       point.y >= sqWin[0].y &&
+       point.y <= sqWin[2].y
+    ){
+        cout<<"Point is inside"<<endl;
+        SetPixel(hdc, point.x, point.y, color);
+    }else{
+        cout<<"Point is outside"<<endl;
+        SetPixel(hdc, point.x, point.y, RGB(255,255,255));
     }
 }
 
@@ -130,18 +141,17 @@ bool clipLine(Point* window, Point& p1, Point& p2){
 }
 
 void clippingLineWithSquareWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 4){
+    if(pointsNum < 6){
         return;
     }
 
-    Point* sqWin = getSquareWindow(hdc, points[0], points[1], color);
+    Point sqWin[] = {points[0], points[1], points[2], points[3]};
 
-    for(int i=2; i<pointsNum; i+=2){
-        if((i+1) < pointsNum){
-            if(clipLine(sqWin, points[i], points[i+1])){
-                Point line[2] = {Point(points[i].x, points[i].y), Point(points[i+1].x, points[i+1].y)};
-                lineDDA(hdc, line, 2, color);
-            }
-        }
+    Point point1 = points[4];
+    Point point2 = points[5];
+
+    if(clipLine(sqWin, point1, point2)){
+        Point line[2] = {Point(point1.x, point1.y), Point(point2.x, point2.y)};
+        lineDDA(hdc, line, 2, color);
     }
 }

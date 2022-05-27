@@ -6,5 +6,6 @@
 
 void clippingPointWithSquareWindow(HDC, Point*, int, COLORREF);
 void clippingLineWithSquareWindow(HDC, Point*, int, COLORREF);
+Window* getSquareWindow(HDC, Point*, int, COLORREF);
 
 #endif
