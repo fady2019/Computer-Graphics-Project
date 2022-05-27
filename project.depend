@@ -1,0 +1,73 @@
+# depslib dependency file v1.0
+1653654588 source:e:\fady\lectures\3.2\computer graphics\projects\1\project\main.cpp
+	<iostream>
+	<tchar.h>
+	<windows.h>
+	"Menus.h"
+	"Common.h"
+	"Lines.h"
+	"Circles.h"
+	"Ellipses.h"
+	"Curves.h"
+	"Clipping.h"
+
+1653654581 e:\fady\lectures\3.2\computer graphics\projects\1\project\menus.h
+	<windows.h>
+
+1653654578 source:e:\fady\lectures\3.2\computer graphics\projects\1\project\menus.cpp
+	"Menus.h"
+
+1653649529 source:e:\fady\lectures\3.2\computer graphics\projects\1\project\common.cpp
+	"Common.h"
+	<cmath>
+
+1653652508 e:\fady\lectures\3.2\computer graphics\projects\1\project\common.h
+	<windows.h>
+	"Menus.h"
+
+1653645667 source:e:\fady\lectures\3.2\computer graphics\projects\1\project\lines.cpp
+	"Lines.h"
+	<algorithm>
+	<cmath>
+
+1653586085 e:\fady\lectures\3.2\computer graphics\projects\1\project\lines.h
+	<windows.h>
+	"Common.h"
+
+1653597762 source:e:\fady\lectures\3.2\computer graphics\projects\1\project\clipping.cpp
+	<iostream>
+	"Clipping.h"
+	"Common.h"
+	"Lines.h"
+
+1653596714 e:\fady\lectures\3.2\computer graphics\projects\1\project\clipping.h
+	<windows.h>
+	"Common.h"
+
+1653650947 source:e:\fady\lectures\3.2\computer graphics\projects\1\project\circles.cpp
+	"Circles.h"
+	"Common.h"
+	<cmath>
+
+1653646607 e:\fady\lectures\3.2\computer graphics\projects\1\project\circles.h
+	<windows.h>
+	"Common.h"
+
+1653649355 e:\fady\lectures\3.2\computer graphics\projects\1\project\ellipses.h
+	<windows.h>
+	"Common.h"
+
+1653651059 source:e:\fady\lectures\3.2\computer graphics\projects\1\project\ellipses.cpp
+	"Ellipses.h"
+	"Common.h"
+	<math.h>
+	<algorithm>
+
+1653654543 e:\fady\lectures\3.2\computer graphics\projects\1\project\curves.h
+	<windows.h>
+	"Common.h"
+
+1653652718 source:e:\fady\lectures\3.2\computer graphics\projects\1\project\curves.cpp
+	"Curves.h"
+	"Common.h"
+
