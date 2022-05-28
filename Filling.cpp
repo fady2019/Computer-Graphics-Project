@@ -4,6 +4,7 @@
 #include "Circles.h"
 #include <stack>
 #include "Lines.h"
+#include "math.h"
 
 void nonRecursiveFloodFillAlgorithm(HDC hdc, int x, int y, COLORREF bc, COLORREF fc)
 {
@@ -70,7 +71,7 @@ void nonRecursiveFloodFill(HDC hdc, Point* points, int pointsNum, COLORREF color
     nonRecursiveFloodFillAlgorithm(hdc, points[0].x+1, points[0].y, color, color);
 }
 
-
+/// filling circle by lines
 void fillingQuarterByLine(HDC hdc, Point* p, int q, COLORREF color)
 {
     if(q==1)
@@ -126,7 +127,8 @@ void fillingQuarterByLines(HDC hdc, Point* points, int quarter, COLORREF color)
     }
 }
 
-void fillingQuarter1ByLines(HDC hdc, Point* points, int pointsNum, COLORREF color){
+void fillingQuarter1ByLines(HDC hdc, Point* points, int pointsNum, COLORREF color)
+{
     if(pointsNum < 2)
     {
         return;
@@ -135,7 +137,8 @@ void fillingQuarter1ByLines(HDC hdc, Point* points, int pointsNum, COLORREF colo
     fillingQuarterByLines(hdc, points, 1, color);
 }
 
-void fillingQuarter2ByLines(HDC hdc, Point* points, int pointsNum, COLORREF color){
+void fillingQuarter2ByLines(HDC hdc, Point* points, int pointsNum, COLORREF color)
+{
     if(pointsNum < 2)
     {
         return;
@@ -144,7 +147,8 @@ void fillingQuarter2ByLines(HDC hdc, Point* points, int pointsNum, COLORREF colo
     fillingQuarterByLines(hdc, points, 2, color);
 }
 
-void fillingQuarter3ByLines(HDC hdc, Point* points, int pointsNum, COLORREF color){
+void fillingQuarter3ByLines(HDC hdc, Point* points, int pointsNum, COLORREF color)
+{
     if(pointsNum < 2)
     {
         return;
@@ -153,7 +157,8 @@ void fillingQuarter3ByLines(HDC hdc, Point* points, int pointsNum, COLORREF colo
     fillingQuarterByLines(hdc, points, 3, color);
 }
 
-void fillingQuarter4ByLines(HDC hdc, Point* points, int pointsNum, COLORREF color){
+void fillingQuarter4ByLines(HDC hdc, Point* points, int pointsNum, COLORREF color)
+{
     if(pointsNum < 2)
     {
         return;
@@ -161,3 +166,94 @@ void fillingQuarter4ByLines(HDC hdc, Point* points, int pointsNum, COLORREF colo
 
     fillingQuarterByLines(hdc, points, 4, color);
 }
+
+
+/// filling circle by circles
+void draw2Points(HDC hdc, Point center, int x, int y, int q, COLORREF color)
+{
+    int xc = center.x;
+    int yc = center.y;
+
+    if(q==1)
+    {
+        SetPixel(hdc, xc + x, yc - y, color);
+        SetPixel(hdc, xc + y, yc - x, color);
+    }
+    else if(q==2)
+    {
+        SetPixel(hdc, xc - y, yc - x, color);
+        SetPixel(hdc, xc - x, yc - y, color);
+    }
+    else if(q==3)
+    {
+        SetPixel(hdc, xc - x, yc + y, color);
+        SetPixel(hdc, xc - y, yc + x, color);
+    }
+    else if(q==4)
+    {
+        SetPixel(hdc, xc + y, yc + x, color);
+        SetPixel(hdc, xc + x, yc + y, color);
+    }
+}
+
+void drawCircle(HDC hdc, Point center, int radius, int quarter, COLORREF color){
+    float x = radius;
+    float y = 0;
+    float dTheta=1.0/radius;
+    float cosDT=cos(dTheta);
+    float sinDT=sin(dTheta);
+
+    while(x >= y){
+        draw2Points(hdc, center, round(x), round(y),quarter, color);
+        float x1=x*cosDT - y*sinDT;
+        y=y*cosDT + x*sinDT;
+        x=x1;
+    }
+}
+
+void fillingQuarterByCircles(HDC hdc, Point* points, int quarter, COLORREF color)
+{
+    int radius = getLineLen(points[0], points[1]);
+
+    for(int r=1; r<radius; r++)
+    {
+        drawCircle(hdc, points[0], r, quarter, color);
+    }
+}
+
+void fillingQuarter1ByCircles(HDC hdc, Point* points, int pointsNum, COLORREF color)
+{
+    if(pointsNum < 2)
+    {
+        return;
+    }
+    fillingQuarterByCircles(hdc, points, 1, color);
+}
+
+void fillingQuarter2ByCircles(HDC hdc, Point* points, int pointsNum, COLORREF color)
+{
+    if(pointsNum < 2)
+    {
+        return;
+    }
+    fillingQuarterByCircles(hdc, points, 2, color);
+}
+
+void fillingQuarter3ByCircles(HDC hdc, Point* points, int pointsNum, COLORREF color)
+{
+    if(pointsNum < 2)
+    {
+        return;
+    }
+    fillingQuarterByCircles(hdc, points, 3, color);
+}
+
+void fillingQuarter4ByCircles(HDC hdc, Point* points, int pointsNum, COLORREF color)
+{
+    if(pointsNum < 2)
+    {
+        return;
+    }
+    fillingQuarterByCircles(hdc, points, 4, color);
+}
+
