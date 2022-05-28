@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Window* getSquareOrRectangleWindow(HDC hdc, Point point, int width, int height, COLORREF color){  
+Window* getSquareOrRectangleWindow(HDC hdc, Point point, int width, int height, COLORREF color){
     Point* points = new Point[4];
     points[0] = point;
     points[1] = Point(point.x+width, point.y);
@@ -226,4 +226,31 @@ void clippingPointWithCircleWindow(HDC hdc, Point* points, int pointsNum, COLORR
     }
 }
 
+void clippingLineWithCircleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
+    if(pointsNum < 4){
+        return;
+    }
+
+    int R = getLineLen(points[0], points[1]);
+
+    Point p1 = points[2];
+    Point p2 = points[3];
+    double dx = p2.x - p1.x;
+    double dy = p2.y - p1.y;
+
+    for(double t = 0; t < 1; t += 0.001) {
+        int x = p1.x + (dx * t);
+        int y = p1.y + (dy * t);
+        int r = getLineLen(Point(x,y), points[0]);
+        if(r <= R)
+        {
+            SetPixel(hdc, x, y, color);
+        }
+        else
+        {
+            SetPixel(hdc, x, y, RGB(255,255,255));
+        }
+    }
+
+}
 

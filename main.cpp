@@ -183,8 +183,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                     break;
                 }
                 case CLIPPING_REC_WIN_POL_MENU: {break;}
-                case CLIPPING_SQUARE_WIN_POINT_MENU:
-                {
+                case CLIPPING_SQUARE_WIN_POINT_MENU: {
                     windowSys.maxCount=2; windowSys.shaper=getSquareWindow;
                     sys.maxCount=1; sys.shaper=&clippingPointWithSquareOrRectangleWindow;
                     break;
@@ -199,7 +198,11 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                     sys.maxCount=1; sys.shaper=&clippingPointWithCircleWindow;
                     break;
                 }
-                case CLIPPING_CIR_WIN_LINE_MENU: {break;}
+                case CLIPPING_CIR_WIN_LINE_MENU: {
+                    windowSys.maxCount=2; windowSys.shaper=getCircleWindow;
+                    sys.maxCount=2; sys.shaper=&clippingLineWithCircleWindow;
+                    break;
+                }
             }
             break;
         }

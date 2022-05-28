@@ -5,11 +5,12 @@
 #include "Common.h"
 
 Window* getSquareWindow(HDC, Point*, int, COLORREF);
-Window* getRectangleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color);
+Window* getRectangleWindow(HDC, Point*, int, COLORREF);
 Window* getCircleWindow(HDC, Point*, int, COLORREF);
 
-void clippingPointWithSquareOrRectangleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color);
-void clippingLineWithSquareOrRectangleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color);
+void clippingPointWithSquareOrRectangleWindow(HDC, Point*, int, COLORREF);
+void clippingLineWithSquareOrRectangleWindow(HDC, Point*, int, COLORREF);
 void clippingPointWithCircleWindow(HDC, Point*, int, COLORREF);
+void clippingLineWithCircleWindow(HDC, Point*, int, COLORREF);
 
 #endif
