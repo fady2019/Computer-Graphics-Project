@@ -41,8 +41,53 @@ Window* getSquareWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
 
     return win;
 }
+Window* getRectangleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
+    if(pointsNum<3)
+        return 0;
+    Point p1 = points[0];
+    Point p2 = points[1];
+    Point p3 = points[2];
+    Point smallPoint1 = getSmallPoint(p1, p2);
+    Point smallPoint2=getSmallPoint(smallPoint1,p3);
+    int dist=0;
+    int dist2=0;
+    if((smallPoint2.x==p1.x)&&(smallPoint2.y=p1.y))
+    {
+        dist = getLineLen(p2, p3);
+        dist2=getLineLen(smallPoint2,p2);
+    }
+    else if((smallPoint2.x==p2.x)&&(smallPoint2.y=p2.y))
+    {
+        dist = getLineLen(p1, p3);
+        dist2=getLineLen(smallPoint2,p2);
 
-void clippingPointWithSquareWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
+    }
+    else if((smallPoint2.x==p3.x)&&(smallPoint2.y=p3.y))
+    {
+        dist = getLineLen(p1, p2);
+        dist2=getLineLen(smallPoint2,p1);
+    }
+    Point* sp = new Point[4];
+    sp[0] = smallPoint2;
+    sp[1] = Point(smallPoint2.x+dist, smallPoint2.y);
+    sp[2] = Point(smallPoint2.x+dist, smallPoint2.y+dist);
+    sp[3] = Point(smallPoint2.x, smallPoint2.y+dist);
+    for(int i=0; i<4; i++){
+        Point line[2] = {Point(sp[i].x, sp[i].y)};
+        if(i == 3){
+            line[1] = Point(sp[0].x, sp[0].y);
+        }else{
+            line[1] = Point(sp[i+1].x, sp[i+1].y);
+        }
+        lineDDA(hdc, line, 2, color);
+    }
+    Window* win = new Window;
+    win->points = sp;
+    win->pointsNum = 4;
+
+    return win;
+}
+void clippingPointSquareWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
     if(pointsNum < 5){
         return;
     }
@@ -156,7 +201,21 @@ void clippingLineWithSquareWindow(HDC hdc, Point* points, int pointsNum, COLORRE
         lineDDA(hdc, line, 2, color);
     }
 }
+void clippingLineWithRectangleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
+    if(pointsNum < 6){
+        return;
+    }
 
+    Point sqWin[] = {points[0], points[1], points[2], points[3]};
+
+    Point point1 = points[4];
+    Point point2 = points[5];
+
+    if(clipLine(sqWin, point1, point2)){
+        Point line[2] = {Point(point1.x, point1.y), Point(point2.x, point2.y)};
+        lineDDA(hdc, line, 2, color);
+    }
+}
 
 /// circle clipping
 Window* getCircleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
@@ -190,3 +249,5 @@ void clippingPointWithCircleWindow(HDC hdc, Point* points, int pointsNum, COLORR
         SetPixel(hdc, points[2].x, points[2].y, RGB(255,255,255));
     }
 }
+
+

@@ -172,13 +172,20 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                 case FILLING_RECUR_FF_MENU: {sys.maxCount=2; sys.shaper=&recursiveFloodFill; break;}
                 case FILLING_NON_RECUR_FF_MENU: {sys.maxCount=2; sys.shaper=&nonRecursiveFloodFill; break;}
                 /// Clipping Menu
-                case CLIPPING_REC_WIN_POINT_MENU: {break;}
-                case CLIPPING_REC_WIN_LINE_MENU: {break;}
+                case CLIPPING_REC_WIN_POINT_MENU: {
+                    windowSys.maxCount=3; windowSys.shaper=getRectangleWindow;
+                    sys.maxCount=1; sys.shaper=&clippingPointSquareWindow;
+                    break;
+                    break;}
+                case CLIPPING_REC_WIN_LINE_MENU: {
+                    windowSys.maxCount=3; windowSys.shaper=getRectangleWindow;
+                    sys.maxCount=2; sys.shaper=&clippingLineWithRectangleWindow;
+                    break;}
                 case CLIPPING_REC_WIN_POL_MENU: {break;}
                 case CLIPPING_SQUARE_WIN_POINT_MENU:
                 {
                     windowSys.maxCount=2; windowSys.shaper=getSquareWindow;
-                    sys.maxCount=1; sys.shaper=&clippingPointWithSquareWindow;
+                    sys.maxCount=1; sys.shaper=&clippingPointSquareWindow;
                     break;
                 }
                 case CLIPPING_SQUARE_WIN_LINE_MENU: {
