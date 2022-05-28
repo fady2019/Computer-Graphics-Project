@@ -51,10 +51,14 @@
 		<Unit filename="Files.h" />
 		<Unit filename="Filling.cpp" />
 		<Unit filename="Filling.h" />
+		<Unit filename="GeneralShapes.cpp" />
+		<Unit filename="GeneralShapes.h" />
 		<Unit filename="Lines.cpp" />
 		<Unit filename="Lines.h" />
 		<Unit filename="Menus.cpp" />
 		<Unit filename="Menus.h" />
+		<Unit filename="ShapesWindow.cpp" />
+		<Unit filename="ShapesWindow.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />

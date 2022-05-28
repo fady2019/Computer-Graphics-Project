@@ -17,6 +17,7 @@
 #include "Filling.h"
 #include "Clipping.h"
 #include "Files.h"
+#include "ShapesWindow.h"
 
 using namespace std;
 
@@ -91,13 +92,29 @@ int WINAPI WinMain (HINSTANCE hThisInstance,
 }
 
 
-/*  This function is called by the Windows function DispatchMessage()  */
+System<void> sys;
+System<Window*> windowSys;
+Window* window;
 
+void callShaper(HDC hdc){
+    Point* points = 0;
+    int pointsSize = 0;
+
+    if(window != 0){
+        points = mergeTwoArray(window->points, window->pointsNum, sys.points, sys.count);
+        pointsSize = window->pointsNum + sys.count;
+    }else{
+        points = sys.points;
+        pointsSize = sys.count;
+    }
+
+    sys.shaper(hdc, points, pointsSize, sys.color);
+    sys.count = 0;
+}
+
+/*  This function is called by the Windows function DispatchMessage()  */
 LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    static System<void> sys;
-    static System<Window*> windowSys;
-    static Window* window;
     static HDC hdc = GetDC(hwnd);
 
     switch (message)                  /* handle the messages */
@@ -182,7 +199,11 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                     sys.maxCount=2; sys.shaper=&clippingLineWithSquareOrRectangleWindow;
                     break;
                 }
-                case CLIPPING_REC_WIN_POL_MENU: {break;}
+                case CLIPPING_REC_WIN_POL_MENU: {
+                    windowSys.maxCount=3; windowSys.shaper=getRectangleWindow;
+                    sys.maxCount=INT_MAX; sys.shaper=&clippingPolygonWithRectangleWindow;
+                    break;
+                }
                 case CLIPPING_SQUARE_WIN_POINT_MENU: {
                     windowSys.maxCount=2; windowSys.shaper=getSquareWindow;
                     sys.maxCount=1; sys.shaper=&clippingPointWithSquareOrRectangleWindow;
@@ -228,27 +249,14 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
             sys.points[sys.count++] = enteredPoint;
             if(sys.count == sys.maxCount){
-                Point* points = 0;
-                int pointsSize = 0;
-
-                if(window != 0){
-                    points = mergeTwoArray(window->points, window->pointsNum, sys.points, sys.count);
-                    pointsSize = window->pointsNum + sys.count;
-                }else{
-                    points = sys.points;
-                    pointsSize = sys.count;
-                }
-
-                sys.shaper(hdc, points, pointsSize, sys.color);
-                sys.count = 0;
+                callShaper(hdc);
             }
 
             break;
         }
         case WM_RBUTTONDOWN:{
             if(sys.shaper){
-                sys.shaper(hdc, sys.points, sys.count, sys.color);
-                sys.count = 0;
+                callShaper(hdc);
             }
 
             break;

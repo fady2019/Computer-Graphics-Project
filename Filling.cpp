@@ -7,6 +7,7 @@
 #include "Filling.h"
 #include "Circles.h"
 #include "Lines.h"
+#include "GeneralShapes.h"
 
 using namespace std;
 
@@ -260,18 +261,6 @@ void fillingQuarter4ByCircles(HDC hdc, Point* points, int pointsNum, COLORREF co
 }
 
 /// FILLING POLYGON (CONVEX & NON CONVEX)
-void drawPolygon(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    Point p1 = points[pointsNum-1];
-
-    for(int i=0; i<pointsNum; i++){
-        Point* line = new Point[2];
-        line[0] = p1;
-        line[1] = points[i];
-        lineMidpoint(hdc, line, 2, color);
-        p1 = points[i];
-    }
-}
-
 // CONVEX
 void edgeToTableConvex(Point p1, Point p2, Edge table[]){
     if(p1.y == p2.y){
