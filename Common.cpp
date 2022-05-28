@@ -46,7 +46,7 @@ int getLineLen(Point p1, Point p2)
     return sqrt((dx*dx) + (dy*dy));
 }
 
-Point getSmallPoint(Point p1, Point p2){
+Point getNearestPoint(Point p1, Point p2){
     return getLineLen(Point(0,0), p1) < getLineLen(Point(0,0), p2)? p1 : p2;
 }
 

@@ -174,23 +174,24 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                 /// Clipping Menu
                 case CLIPPING_REC_WIN_POINT_MENU: {
                     windowSys.maxCount=3; windowSys.shaper=getRectangleWindow;
-                    sys.maxCount=1; sys.shaper=&clippingPointSquareWindow;
+                    sys.maxCount=1; sys.shaper=&clippingPointWithSquareOrRectangleWindow;
                     break;
-                    break;}
+                }
                 case CLIPPING_REC_WIN_LINE_MENU: {
                     windowSys.maxCount=3; windowSys.shaper=getRectangleWindow;
-                    sys.maxCount=2; sys.shaper=&clippingLineWithRectangleWindow;
-                    break;}
+                    sys.maxCount=2; sys.shaper=&clippingLineWithSquareOrRectangleWindow;
+                    break;
+                }
                 case CLIPPING_REC_WIN_POL_MENU: {break;}
                 case CLIPPING_SQUARE_WIN_POINT_MENU:
                 {
                     windowSys.maxCount=2; windowSys.shaper=getSquareWindow;
-                    sys.maxCount=1; sys.shaper=&clippingPointSquareWindow;
+                    sys.maxCount=1; sys.shaper=&clippingPointWithSquareOrRectangleWindow;
                     break;
                 }
                 case CLIPPING_SQUARE_WIN_LINE_MENU: {
                     windowSys.maxCount=2; windowSys.shaper=getSquareWindow;
-                    sys.maxCount=2; sys.shaper=&clippingLineWithSquareWindow;
+                    sys.maxCount=2; sys.shaper=&clippingLineWithSquareOrRectangleWindow;
                     break;
                 }
                 case CLIPPING_CIR_WIN_POINT_MENU: {

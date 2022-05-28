@@ -76,7 +76,7 @@ void swapTwoPoints(Point&, Point&);
 void draw8Points(HDC, Point, int, int, COLORREF);
 void draw4Points(HDC, Point, int, int, COLORREF);
 int getLineLen(Point, Point);
-Point getSmallPoint(Point, Point);
+Point getNearestPoint(Point, Point);
 Point* mergeTwoArray(Point*, int, Point*, int);
 
 #endif

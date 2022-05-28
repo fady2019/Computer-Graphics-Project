@@ -6,6 +6,32 @@
 
 using namespace std;
 
+Window* getSquareOrRectangleWindow(HDC hdc, Point point, int width, int height, COLORREF color){  
+    Point* points = new Point[4];
+    points[0] = point;
+    points[1] = Point(point.x+width, point.y);
+    points[2] = Point(point.x+width, point.y+height);
+    points[3] = Point(point.x, point.y+height);
+
+    for(int i=0; i<4; i++){
+        Point line[2] = {Point(points[i].x, points[i].y)};
+
+        if(i == 3){
+            line[1] = Point(points[0].x, points[0].y);
+        }else{
+            line[1] = Point(points[i+1].x, points[i+1].y);
+        }
+
+        lineDDA(hdc, line, 2, color);
+    }
+
+    Window* win = new Window;
+    win->points = points;
+    win->pointsNum = 4;
+
+    return win;
+}
+
 Window* getSquareWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
     if(pointsNum < 2){
         return 0;
@@ -14,80 +40,48 @@ Window* getSquareWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
     Point p1 = points[0];
     Point p2 = points[1];
 
-    int dist = getLineLen(p1, p2);
-    Point smallPoint = getSmallPoint(p1, p2);
+    int sideLen = getLineLen(p1, p2);
+    Point nearestPoint = getNearestPoint(p1, p2);
 
-    Point* sp = new Point[4];
-    sp[0] = smallPoint;
-    sp[1] = Point(smallPoint.x+dist, smallPoint.y);
-    sp[2] = Point(smallPoint.x+dist, smallPoint.y+dist);
-    sp[3] = Point(smallPoint.x, smallPoint.y+dist);
+    return getSquareOrRectangleWindow(hdc, nearestPoint, sideLen, sideLen, color);
+}
 
-    for(int i=0; i<4; i++){
-        Point line[2] = {Point(sp[i].x, sp[i].y)};
-
-        if(i == 3){
-            line[1] = Point(sp[0].x, sp[0].y);
-        }else{
-            line[1] = Point(sp[i+1].x, sp[i+1].y);
-        }
-
-        lineDDA(hdc, line, 2, color);
+Window* getRectangleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
+    if(pointsNum<3){
+        return 0;
     }
 
-    Window* win = new Window;
-    win->points = sp;
-    win->pointsNum = 4;
-
-    return win;
-}
-Window* getRectangleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum<3)
-        return 0;
     Point p1 = points[0];
     Point p2 = points[1];
     Point p3 = points[2];
-    Point smallPoint1 = getSmallPoint(p1, p2);
-    Point smallPoint2=getSmallPoint(smallPoint1,p3);
-    int dist=0;
-    int dist2=0;
-    if((smallPoint2.x==p1.x)&&(smallPoint2.y=p1.y))
+
+    Point nearestPoint = getNearestPoint(p1, p2);
+    nearestPoint = getNearestPoint(nearestPoint,p3);
+
+    int width=0;
+    int height=0;
+
+    if((nearestPoint.x==p1.x)&&(nearestPoint.y=p1.y))
     {
-        dist = getLineLen(p2, p3);
-        dist2=getLineLen(smallPoint2,p2);
+        width = getLineLen(p1, p2);
+        height = getLineLen(p1, p3);
     }
-    else if((smallPoint2.x==p2.x)&&(smallPoint2.y=p2.y))
+    else if((nearestPoint.x==p2.x)&&(nearestPoint.y=p2.y))
     {
-        dist = getLineLen(p1, p3);
-        dist2=getLineLen(smallPoint2,p2);
+        width = getLineLen(p2, p1);
+        height = getLineLen(p2,p3);
 
     }
-    else if((smallPoint2.x==p3.x)&&(smallPoint2.y=p3.y))
+    else if((nearestPoint.x==p3.x)&&(nearestPoint.y=p3.y))
     {
-        dist = getLineLen(p1, p2);
-        dist2=getLineLen(smallPoint2,p1);
+        width = getLineLen(p3, p1);
+        height = getLineLen(p3,p2);
     }
-    Point* sp = new Point[4];
-    sp[0] = smallPoint2;
-    sp[1] = Point(smallPoint2.x+dist, smallPoint2.y);
-    sp[2] = Point(smallPoint2.x+dist, smallPoint2.y+dist);
-    sp[3] = Point(smallPoint2.x, smallPoint2.y+dist);
-    for(int i=0; i<4; i++){
-        Point line[2] = {Point(sp[i].x, sp[i].y)};
-        if(i == 3){
-            line[1] = Point(sp[0].x, sp[0].y);
-        }else{
-            line[1] = Point(sp[i+1].x, sp[i+1].y);
-        }
-        lineDDA(hdc, line, 2, color);
-    }
-    Window* win = new Window;
-    win->points = sp;
-    win->pointsNum = 4;
 
-    return win;
+    return getSquareOrRectangleWindow(hdc, nearestPoint, width, height, color);
 }
-void clippingPointSquareWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
+
+void clippingPointWithSquareOrRectangleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
     if(pointsNum < 5){
         return;
     }
@@ -110,8 +104,7 @@ void clippingPointSquareWindow(HDC hdc, Point* points, int pointsNum, COLORREF c
     }
 }
 
-OutCode getOutCode(Point point, int left, int right, int bottom, int top)
-{
+OutCode getOutCode(Point point, int left, int right, int bottom, int top){
     OutCode outCode;
     outCode.all = 0;
 
@@ -130,14 +123,12 @@ OutCode getOutCode(Point point, int left, int right, int bottom, int top)
     return outCode;
 }
 
-void VIntersect(Point p1, Point p2, int xEdge, Point& pIn)
-{
+void VIntersect(Point p1, Point p2, int xEdge, Point& pIn){
     pIn.y = p1.y + (xEdge - p1.x) * (p2.y - p1.y) / (p2.x - p1.x);
     pIn.x = xEdge;
 }
 
-void HIntersect(Point p1, Point p2, int yEdge, Point& pIn)
-{
+void HIntersect(Point p1, Point p2, int yEdge, Point& pIn){
     pIn.x = p1.x + (yEdge - p1.y) * (p2.x - p1.x) / (p2.y - p1.y);
     pIn.y = yEdge;
 }
@@ -186,22 +177,7 @@ bool clipLine(Point* window, Point& p1, Point& p2){
     }
 }
 
-void clippingLineWithSquareWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 6){
-        return;
-    }
-
-    Point sqWin[] = {points[0], points[1], points[2], points[3]};
-
-    Point point1 = points[4];
-    Point point2 = points[5];
-
-    if(clipLine(sqWin, point1, point2)){
-        Point line[2] = {Point(point1.x, point1.y), Point(point2.x, point2.y)};
-        lineDDA(hdc, line, 2, color);
-    }
-}
-void clippingLineWithRectangleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
+void clippingLineWithSquareOrRectangleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
     if(pointsNum < 6){
         return;
     }
