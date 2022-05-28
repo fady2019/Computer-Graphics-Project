@@ -306,3 +306,128 @@
 	"Lines.h"
 	"GeneralShapes.h"
 
+1653774324 source:e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\circles.cpp
+	"Circles.h"
+	"Common.h"
+	<cmath>
+
+1653774324 e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\circles.h
+	<windows.h>
+	"Common.h"
+
+1653774324 e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\common.h
+	<iostream>
+	<windows.h>
+	"Menus.h"
+
+1653774324 e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\menus.h
+	<windows.h>
+
+1653777278 source:e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\clipping.cpp
+	<iostream>
+	<windows.h>
+	"Clipping.h"
+	"Common.h"
+	"Lines.h"
+	<vector>
+
+1653774324 e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\clipping.h
+	<windows.h>
+	"Common.h"
+
+1653774324 e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\lines.h
+	<windows.h>
+	"Common.h"
+
+1653774324 source:e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\common.cpp
+	"Common.h"
+	<cmath>
+
+1653774324 source:e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\curves.cpp
+	"Curves.h"
+	"Common.h"
+
+1653774324 e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\curves.h
+	<windows.h>
+	"Common.h"
+
+1653774324 source:e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\ellipses.cpp
+	"Ellipses.h"
+	"Common.h"
+	<math.h>
+	<algorithm>
+
+1653774324 e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\ellipses.h
+	<windows.h>
+	"Common.h"
+
+1653774324 source:e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\files.cpp
+	<windows.h>
+	"Files.h"
+
+1653774324 e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\files.h
+	<windows.h>
+
+1653774324 source:e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\filling.cpp
+	<iostream>
+	<windows.h>
+	<math.h>
+	<stack>
+	<list>
+	"Common.h"
+	"Filling.h"
+	"Circles.h"
+	"Lines.h"
+	"GeneralShapes.h"
+	"ShapesWindow.h"
+	"Curves.h"
+
+1653774324 e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\filling.h
+	<iostream>
+	<windows.h>
+	"Common.h"
+
+1653774324 e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\generalshapes.h
+	<windows.h>
+	"Common.h"
+
+1653774324 e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\shapeswindow.h
+	<windows.h>
+	"Common.h"
+
+1653774324 source:e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\generalshapes.cpp
+	<windows.h>
+	"GeneralShapes.h"
+	"Common.h"
+	"Lines.h"
+
+1653774324 source:e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\lines.cpp
+	"Lines.h"
+	<algorithm>
+	<cmath>
+
+1653775677 source:e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\main.cpp
+	<iostream>
+	<tchar.h>
+	<windows.h>
+	"Menus.h"
+	"Common.h"
+	"Lines.h"
+	"Circles.h"
+	"Ellipses.h"
+	"Curves.h"
+	"Filling.h"
+	"Clipping.h"
+	"Files.h"
+	"ShapesWindow.h"
+
+1653774324 source:e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\menus.cpp
+	"Menus.h"
+
+1653774324 source:e:\college\year 3\term 2\graphics\graphics project\computer-graphics-project\shapeswindow.cpp
+	<windows.h>
+	"ShapesWindow.h"
+	"Circles.h"
+	"Lines.h"
+	"GeneralShapes.h"
+

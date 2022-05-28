@@ -201,7 +201,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                 }
                 case CLIPPING_REC_WIN_POL_MENU: {
                     windowSys.maxCount=3; windowSys.shaper=getRectangleWindow;
-                    sys.maxCount=INT_MAX; sys.shaper=&clippingPolygonWithRectangleWindow;
+                    sys.maxCount=4; sys.shaper=&clippingPolygonWithRectangleWindow;
                     break;
                 }
                 case CLIPPING_SQUARE_WIN_POINT_MENU: {
