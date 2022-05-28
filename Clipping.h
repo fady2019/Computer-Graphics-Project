@@ -4,6 +4,16 @@
 #include <windows.h>
 #include "Common.h"
 
+union OutCode
+{
+    unsigned all:4;
+    struct
+    {
+        unsigned left:1, right:1, bottom:1, top:1;
+    };
+};
+
+
 void clippingPointWithSquareOrRectangleWindow(HDC, Point*, int, COLORREF);
 void clippingLineWithSquareOrRectangleWindow(HDC, Point*, int, COLORREF);
 void clippingPolygonWithRectangleWindow(HDC, Point*, int, COLORREF);

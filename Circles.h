@@ -9,6 +9,5 @@ void circlePolar(HDC, Point*, int, COLORREF);
 void circleIterativePolar(HDC, Point*, int, COLORREF);
 void circleMidpoint(HDC, Point*, int, COLORREF);
 void circleModifiedMidpoint(HDC, Point*, int, COLORREF);
-Window* getCircleWindow(HDC, Point*, int, COLORREF);
 
 #endif

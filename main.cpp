@@ -182,8 +182,8 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                 case FILLING_CIR_WITH_CIRS_Q2_MENU: {sys.maxCount=2; sys.shaper=&fillingQuarter2ByCircles; break;}
                 case FILLING_CIR_WITH_CIRS_Q3_MENU: {sys.maxCount=2; sys.shaper=&fillingQuarter3ByCircles; break;}
                 case FILLING_CIR_WITH_CIRS_Q4_MENU: {sys.maxCount=2; sys.shaper=&fillingQuarter4ByCircles; break;}
-                case FILLING_SQUARE_WITH_HERMIT_MENU: {break;}
-                case FILLING_REC_WITH_BEZIER_MENU: {break;}
+                case FILLING_SQUARE_WITH_HERMIT_MENU: {sys.maxCount=2; sys.shaper=&fillingSquareWithHermitCurve; break;}
+                case FILLING_REC_WITH_BEZIER_MENU: {sys.maxCount=3; sys.shaper=&fillingRectangleWithBezierCurve; break;}
                 case FILLING_CONVEX_MENU: {sys.maxCount=INT_MAX; sys.shaper=&fillingPolygonConvex; break;}
                 case FILLING_NON_CONVEX_MENU: {sys.maxCount=INT_MAX; sys.shaper=&fillingPolygonNonConvex; break;}
                 case FILLING_RECUR_FF_MENU: {sys.maxCount=2; sys.shaper=&recursiveFloodFill; break;}

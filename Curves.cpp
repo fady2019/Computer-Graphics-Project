@@ -28,7 +28,7 @@ void hermitCurve(HDC hdc, Point* points, int pointsNum, COLORREF color){
     Point T1(3 * (points[1].x - points[0].x), 3 * (points[1].y - points[0].y));
     Point T2(3 * (points[3].x - points[2].x), 3 * (points[3].y - points[2].y));
 
-    drawHermitCurve(hdc, points[0], T1, points[2], T2, color);
+    drawHermitCurve(hdc, points[0], T1, points[3], T2, color);
 }
 
 void bezierCurve(HDC hdc, Point* points, int pointsNum, COLORREF color){

@@ -2,6 +2,7 @@
 #include "ShapesWindow.h"
 #include "Circles.h"
 #include "Lines.h"
+#include "GeneralShapes.h"
 
 
 Window* getSquareOrRectangleWindow(HDC hdc, Point point, int width, int height, COLORREF color){  
@@ -11,17 +12,7 @@ Window* getSquareOrRectangleWindow(HDC hdc, Point point, int width, int height, 
     points[2] = Point(point.x+width, point.y+height);
     points[3] = Point(point.x, point.y+height);
 
-    for(int i=0; i<4; i++){
-        Point line[2] = {Point(points[i].x, points[i].y)};
-
-        if(i == 3){
-            line[1] = Point(points[0].x, points[0].y);
-        }else{
-            line[1] = Point(points[i+1].x, points[i+1].y);
-        }
-
-        lineDDA(hdc, line, 2, color);
-    }
+    drawSquareOrRectangle(hdc, points, 4, color);
 
     Window* win = new Window;
     win->points = points;

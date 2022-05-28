@@ -51,6 +51,9 @@ void fillingQuarter2ByCircles(HDC, Point*, int, COLORREF);
 void fillingQuarter3ByCircles(HDC, Point*, int, COLORREF);
 void fillingQuarter4ByCircles(HDC, Point*, int, COLORREF);
 
+void fillingSquareWithHermitCurve(HDC, Point*, int, COLORREF);
+void fillingRectangleWithBezierCurve(HDC, Point*, int, COLORREF);
+
 void fillingPolygonConvex(HDC, Point*, int, COLORREF);
 void fillingPolygonNonConvex(HDC, Point*, int, COLORREF);
 

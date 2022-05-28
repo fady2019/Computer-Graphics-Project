@@ -8,6 +8,8 @@
 #include "Circles.h"
 #include "Lines.h"
 #include "GeneralShapes.h"
+#include "ShapesWindow.h"
+#include "Curves.h"
 
 using namespace std;
 
@@ -259,6 +261,52 @@ void fillingQuarter4ByCircles(HDC hdc, Point* points, int pointsNum, COLORREF co
     }
     fillingQuarterByCircles(hdc, points, 4, color);
 }
+
+/// Filling Square & Rectangle with Curves
+void fillingSquareWithHermitCurve(HDC hdc, Point* points, int pointsNum, COLORREF color){
+    Window* sqWin = getSquareWindow(hdc, points, pointsNum, color);
+
+    int startX = sqWin->points[0].x;
+    int endX = sqWin->points[2].x;
+    int startY = sqWin->points[0].y;
+    int endY = sqWin->points[2].y;
+
+    int h = (endX - startX)/4;
+
+    for(int i=startX+1; i<endX; i++){
+        Point curvePoints[] = {
+            Point(i, startY),
+            Point(i, startY+h),
+            Point(i+1, endY-h),
+            Point(i, endY)
+        };
+
+        hermitCurve(hdc, curvePoints, 4, color);
+    }
+}
+
+void fillingRectangleWithBezierCurve(HDC hdc, Point* points, int pointsNum, COLORREF color){
+    Window* rqWin = getRectangleWindow(hdc, points, pointsNum, color);
+
+    int startX = rqWin->points[0].x;
+    int endX = rqWin->points[2].x;
+    int startY = rqWin->points[0].y;
+    int endY = rqWin->points[2].y;
+
+    int w = (endX - startX)/4;
+
+    for(int i=startY+1; i<endY; i++){
+        Point curvePoints[] = {
+            Point(startX, i),
+            Point(startX+w, i),
+            Point(endX-w, i+1),
+            Point(endX, i)
+        };
+
+        bezierCurve(hdc, curvePoints, 4, color);
+    }
+}
+
 
 /// FILLING POLYGON (CONVEX & NON CONVEX)
 // CONVEX

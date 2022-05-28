@@ -57,19 +57,6 @@ struct System
     COLORREF color = GOLD_COLOR;
 };
 
-struct Window{
-    Point* points=0;
-    int pointsNum=0;
-};
-
-union OutCode
-{
-    unsigned all:4;
-    struct
-    {
-        unsigned left:1, right:1, bottom:1, top:1;
-    };
-};
 
 int roundNum(float);
 void swapTwoPoints(Point&, Point&);
