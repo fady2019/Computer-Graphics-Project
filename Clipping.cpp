@@ -196,8 +196,6 @@ void clippingPolygonWithRectangleWindow(HDC hdc, Point* points, int pointsNum, C
         vlist.push_back(Point(polygonPoints[i].x,polygonPoints[i].y));
 
     }
-
-    int cnt=0;
     vlist=ClipWithEdge(vlist,sqWin[0].x,InLeft,VVIntersect);
     vlist=ClipWithEdge(vlist,sqWin[0].y,InTop,HHIntersect);
     vlist=ClipWithEdge(vlist,sqWin[2].x,InRight,VVIntersect);
@@ -211,8 +209,6 @@ void clippingPolygonWithRectangleWindow(HDC hdc, Point* points, int pointsNum, C
         lineDDA(hdc, line, 2, color);
         v1=v2;
     }
-    cnt=0;
-    vlist.clear();
 }
 /// circle clipping
 void clippingPointWithCircleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
