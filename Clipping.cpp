@@ -136,6 +136,9 @@ VertexList ClipWithEdge(VertexList p,int edge,IsInFunc In,IntersectFunc Intersec
             OutList.push_back(v2);
         else if(v1_in)
             OutList.push_back(Intersect(v1,v2,edge));
+        else
+        {
+        }
         v1=v2;
         v1_in=v2_in;
     }
@@ -194,22 +197,23 @@ void clippingPolygonWithRectangleWindow(HDC hdc, Point* points, int pointsNum, C
 
     }
 
+    int cnt=0;
     vlist=ClipWithEdge(vlist,sqWin[0].x,InLeft,VVIntersect);
     vlist=ClipWithEdge(vlist,sqWin[0].y,InTop,HHIntersect);
     vlist=ClipWithEdge(vlist,sqWin[2].x,InRight,VVIntersect);
     vlist=ClipWithEdge(vlist,sqWin[2].y,InBottom,HHIntersect);
-
     Point v1=vlist[vlist.size()-1];
 
     for(int i=0;i<(int)vlist.size();i++)
     {
         Point v2=vlist[i];
-        MoveToEx(hdc,roundNum(v1.x),roundNum(v1.y),NULL);
-        LineTo(hdc,roundNum(v2.x),roundNum(v2.y));
+        Point line[2] = {Point(roundNum(v1.x), roundNum(v1.y)), Point(roundNum(v2.x), roundNum(v2.y))};
+        lineDDA(hdc, line, 2, color);
         v1=v2;
     }
+    cnt=0;
+    vlist.clear();
 }
-
 /// circle clipping
 void clippingPointWithCircleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
     int R = getLineLen(points[0], points[1]);
