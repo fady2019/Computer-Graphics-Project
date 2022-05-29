@@ -21,10 +21,6 @@ void drawHermitCurve(HDC hdc, Point p1, Point t1, Point p2, Point t2, COLORREF c
 }
 
 void hermitCurve(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 4){
-        return;
-    }
-
     Point T1(3 * (points[1].x - points[0].x), 3 * (points[1].y - points[0].y));
     Point T2(3 * (points[3].x - points[2].x), 3 * (points[3].y - points[2].y));
 
@@ -32,10 +28,6 @@ void hermitCurve(HDC hdc, Point* points, int pointsNum, COLORREF color){
 }
 
 void bezierCurve(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 4){
-        return;
-    }
-
     Point p1 = points[0];
     Point p2 = points[1];
     Point p3 = points[2];
@@ -59,10 +51,6 @@ void bezierCurve(HDC hdc, Point* points, int pointsNum, COLORREF color){
 }
 
 void cardinalSplineCurve(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 2){
-        return;
-    }
-
     float c = 1.0;
 
     Point T[pointsNum];

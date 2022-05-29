@@ -4,10 +4,6 @@
 #include <algorithm>
 
 void ellipseDirect(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 3){
-        return;
-    }
-
     int A = getLineLen(points[0], points[1]);
     int B = getLineLen(points[0], points[2]);
 
@@ -31,10 +27,6 @@ void ellipseDirect(HDC hdc, Point* points, int pointsNum, COLORREF color){
 }
 
 void ellipsePolar(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 3){
-        return;
-    }
-
     int A = getLineLen(points[0], points[1]);
     int B = getLineLen(points[0], points[2]);
 
@@ -65,10 +57,6 @@ void ellipsePolar(HDC hdc, Point* points, int pointsNum, COLORREF color){
 }
 
 void ellipseMidpoint(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 3){
-        return;
-    }
-
     int A = getLineLen(points[0], points[1]);
     int B = getLineLen(points[0], points[2]);
 

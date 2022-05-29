@@ -3,14 +3,15 @@
 #include "Clipping.h"
 #include "Common.h"
 #include "Lines.h"
-#include<vector>
+#include <vector>
 using namespace std;
 
-void clippingPointWithSquareOrRectangleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 5){
-        return;
-    }
+typedef vector<Point> VertexList;
+typedef bool (*IsInFunc)(Point& v,int edge);
+typedef Point (*IntersectFunc)(Point& v1,Point& v2,int edge);
 
+/// Point Clipping with (Square & Rectangle) Window
+void clippingPointWithSquareOrRectangleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
     Point sqWin[] = {points[0], points[1], points[2], points[3]};
 
     Point point = points[4];
@@ -29,6 +30,7 @@ void clippingPointWithSquareOrRectangleWindow(HDC hdc, Point* points, int points
     }
 }
 
+/// Line Clipping with (Square & Rectangle) Window
 OutCode getOutCode(Point point, int left, int right, int bottom, int top){
     OutCode outCode;
     outCode.all = 0;
@@ -103,10 +105,6 @@ bool clipLine(Point* window, Point& p1, Point& p2){
 }
 
 void clippingLineWithSquareOrRectangleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 6){
-        return;
-    }
-
     Point sqWin[] = {points[0], points[1], points[2], points[3]};
 
     Point point1 = points[4];
@@ -117,10 +115,9 @@ void clippingLineWithSquareOrRectangleWindow(HDC hdc, Point* points, int pointsN
         lineDDA(hdc, line, 2, color);
     }
 }
-typedef vector<Point> VertexList;
-typedef bool (*IsInFunc)(Point& v,int edge);
-typedef Point (*IntersectFunc)(Point& v1,Point& v2,int edge);
 
+
+/// Polygon Clipping with Rectangle Window
 VertexList ClipWithEdge(VertexList p,int edge,IsInFunc In,IntersectFunc Intersect)
 {
     VertexList OutList;
@@ -149,14 +146,17 @@ bool InLeft(Point& v,int edge)
 {
     return v.x>=edge;
 }
+
 bool InRight(Point& v,int edge)
 {
     return v.x<=edge;
 }
+
 bool InTop(Point& v,int edge)
 {
     return v.y>=edge;
 }
+
 bool InBottom(Point& v,int edge)
 {
     return v.y<=edge;
@@ -169,6 +169,7 @@ Point VVIntersect(Point& v1,Point& v2,int xedge)
     res.y=v1.y+(xedge-v1.x)*(v2.y-v1.y)/(v2.x-v1.x);
     return res;
 }
+
 Point HHIntersect(Point& v1,Point& v2,int yedge)
 {
     Point res;
@@ -176,14 +177,8 @@ Point HHIntersect(Point& v1,Point& v2,int yedge)
     res.x=v1.x+(yedge-v1.y)*(v2.x-v1.x)/(v2.y-v1.y);
     return res;
 }
-int Round(double x)
-{
-    return (int)(x+0.5);
-}
+
 void clippingPolygonWithRectangleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 7){
-        return;
-    }
     VertexList vlist;
     Point sqWin[] = {points[0], points[1], points[2], points[3]};
 
@@ -192,32 +187,31 @@ void clippingPolygonWithRectangleWindow(HDC hdc, Point* points, int pointsNum, C
     for(int i=4; i<pointsNum; i++){
         polygonPoints[i-4] = points[i];
     }
-    //cout<<"Polygon Points\n";
+
     for(int i=0;i<pointsNum-4;i++)
     {
         vlist.push_back(Point(polygonPoints[i].x,polygonPoints[i].y));
 
     }
+
     vlist=ClipWithEdge(vlist,sqWin[0].x,InLeft,VVIntersect);
     vlist=ClipWithEdge(vlist,sqWin[0].y,InTop,HHIntersect);
     vlist=ClipWithEdge(vlist,sqWin[2].x,InRight,VVIntersect);
     vlist=ClipWithEdge(vlist,sqWin[2].y,InBottom,HHIntersect);
+
     Point v1=vlist[vlist.size()-1];
+
     for(int i=0;i<(int)vlist.size();i++)
     {
         Point v2=vlist[i];
-        MoveToEx(hdc,Round(v1.x),Round(v1.y),NULL);
-        LineTo(hdc,Round(v2.x),Round(v2.y));
+        MoveToEx(hdc,roundNum(v1.x),roundNum(v1.y),NULL);
+        LineTo(hdc,roundNum(v2.x),roundNum(v2.y));
         v1=v2;
     }
 }
 
 /// circle clipping
 void clippingPointWithCircleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 3){
-        return;
-    }
-
     int R = getLineLen(points[0], points[1]);
     int r = getLineLen(points[0],points[2]);
 
@@ -232,10 +226,6 @@ void clippingPointWithCircleWindow(HDC hdc, Point* points, int pointsNum, COLORR
 }
 
 void clippingLineWithCircleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 4){
-        return;
-    }
-
     int R = getLineLen(points[0], points[1]);
 
     Point p1 = points[2];

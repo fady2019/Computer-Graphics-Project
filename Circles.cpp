@@ -3,10 +3,6 @@
 #include <cmath>
 
 void circleDirect(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 2){
-        return;
-    }
-
     int R = getLineLen(points[0], points[1]);
     int R2 = R*R;
 
@@ -22,10 +18,6 @@ void circleDirect(HDC hdc, Point* points, int pointsNum, COLORREF color){
 }
 
 void circlePolar(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 2){
-        return;
-    }
-
     int R = getLineLen(points[0], points[1]);
     double x = R;
 	double y = 0;
@@ -41,10 +33,6 @@ void circlePolar(HDC hdc, Point* points, int pointsNum, COLORREF color){
 }
 
 void circleIterativePolar(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 2){
-        return;
-    }
-
     int R = getLineLen(points[0], points[1]);
     double x = R;
 	double y = 0;
@@ -62,10 +50,6 @@ void circleIterativePolar(HDC hdc, Point* points, int pointsNum, COLORREF color)
 }
 
 void circleMidpoint(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 2){
-        return;
-    }
-
     int R = getLineLen(points[0], points[1]);
     int R2 = R*R;
     int x = 0;
@@ -85,10 +69,6 @@ void circleMidpoint(HDC hdc, Point* points, int pointsNum, COLORREF color){
 }
 
 void circleModifiedMidpoint(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 2){
-        return;
-    }
-
     int R = getLineLen(points[0], points[1]);
     int x = 0;
     int y = R;

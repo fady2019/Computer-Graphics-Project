@@ -59,22 +59,12 @@ void recursiveFloodFillAlgorithm(HDC hdc, int x, int y, COLORREF bc, COLORREF fc
 
 void recursiveFloodFill(HDC hdc, Point* points, int pointsNum, COLORREF color)
 {
-    if(pointsNum < 2)
-    {
-        return;
-    }
-
     circleModifiedMidpoint(hdc, points, pointsNum, color);
     recursiveFloodFillAlgorithm(hdc, points[0].x+1, points[0].y, color, color);
 }
 
 void nonRecursiveFloodFill(HDC hdc, Point* points, int pointsNum, COLORREF color)
 {
-    if(pointsNum < 2)
-    {
-        return;
-    }
-
     circleModifiedMidpoint(hdc, points, pointsNum, color);
     nonRecursiveFloodFillAlgorithm(hdc, points[0].x+1, points[0].y, color, color);
 }
@@ -136,38 +126,18 @@ void fillingQuarterByLines(HDC hdc, Point* points, int quarter, COLORREF color)
 }
 
 void fillingQuarter1ByLines(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 2)
-    {
-        return;
-    }
-
     fillingQuarterByLines(hdc, points, 1, color);
 }
 
 void fillingQuarter2ByLines(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 2)
-    {
-        return;
-    }
-
     fillingQuarterByLines(hdc, points, 2, color);
 }
 
 void fillingQuarter3ByLines(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 2)
-    {
-        return;
-    }
-
     fillingQuarterByLines(hdc, points, 3, color);
 }
 
 void fillingQuarter4ByLines(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 2)
-    {
-        return;
-    }
-
     fillingQuarterByLines(hdc, points, 4, color);
 }
 
@@ -228,37 +198,21 @@ void fillingQuarterByCircles(HDC hdc, Point* points, int quarter, COLORREF color
 
 void fillingQuarter1ByCircles(HDC hdc, Point* points, int pointsNum, COLORREF color)
 {
-    if(pointsNum < 2)
-    {
-        return;
-    }
     fillingQuarterByCircles(hdc, points, 1, color);
 }
 
 void fillingQuarter2ByCircles(HDC hdc, Point* points, int pointsNum, COLORREF color)
 {
-    if(pointsNum < 2)
-    {
-        return;
-    }
     fillingQuarterByCircles(hdc, points, 2, color);
 }
 
 void fillingQuarter3ByCircles(HDC hdc, Point* points, int pointsNum, COLORREF color)
 {
-    if(pointsNum < 2)
-    {
-        return;
-    }
     fillingQuarterByCircles(hdc, points, 3, color);
 }
 
 void fillingQuarter4ByCircles(HDC hdc, Point* points, int pointsNum, COLORREF color)
 {
-    if(pointsNum < 2)
-    {
-        return;
-    }
     fillingQuarterByCircles(hdc, points, 4, color);
 }
 
@@ -359,11 +313,6 @@ void tableToScreenConvex(HDC hdc, Edge table[], COLORREF color){
 }
 
 void fillingPolygonConvex(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 3){
-        cout<<"Not enough points enter at least 3 points\n";
-        return;
-    }
-
     drawPolygon(hdc, points, pointsNum, color);
 
     Edge table[EDGE_TABLE_SIZE];
@@ -447,11 +396,6 @@ void tableToScreenNonConvex(HDC hdc, list<EdgeRecord> table[], COLORREF color){
 }
 
 void fillingPolygonNonConvex(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 3){
-        cout<<"Not enough points enter at least 3 points\n";
-        return;
-    }
-
     drawPolygon(hdc, points, pointsNum, color);
 
     list<EdgeRecord> table[EDGE_TABLE_SIZE];

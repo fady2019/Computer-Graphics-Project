@@ -4,10 +4,6 @@
 
 void lineDDA(HDC hdc, Point* points, int pointsNum, COLORREF color)
 {
-    if(pointsNum < 2){
-        return;
-    }
-
     Point p1 = points[0], p2 = points[1];
     int dx=p2.x - p1.x;
     int dy=p2.y-p1.y;
@@ -46,10 +42,6 @@ void lineDDA(HDC hdc, Point* points, int pointsNum, COLORREF color)
 
 void lineParametric(HDC hdc, Point* points, int pointsNum, COLORREF color)
 {
-    if(pointsNum < 2){
-        return;
-    }
-
     Point p1 = points[0];
     Point p2 = points[1];
     double dx = p2.x - p1.x;
@@ -64,10 +56,6 @@ void lineParametric(HDC hdc, Point* points, int pointsNum, COLORREF color)
 
 void lineMidpoint(HDC hdc, Point* points, int pointsNum, COLORREF color)
 {
-    if(pointsNum < 2){
-        return;
-    }
-
     Point startPoint = points[0], endPoint = points[1];
     int dx = endPoint.x - startPoint.x;
     int dy = endPoint.y - startPoint.y;

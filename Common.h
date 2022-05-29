@@ -51,6 +51,7 @@ struct System
 {
     Point points[100];
     int count=0;
+    int minCount=0;
     int maxCount=0;
     T (*shaper) (HDC, Point* , int, COLORREF) = 0;
     MenuIDs mode;

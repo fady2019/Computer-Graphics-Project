@@ -22,10 +22,6 @@ Window* getSquareOrRectangleWindow(HDC hdc, Point point, int width, int height, 
 }
 
 Window* getSquareWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 2){
-        return 0;
-    }
-
     Point p1 = points[0];
     Point p2 = points[1];
 
@@ -36,10 +32,6 @@ Window* getSquareWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
 }
 
 Window* getRectangleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum<3){
-        return 0;
-    }
-
     Point p1 = points[0];
     Point p2 = points[1];
     Point p3 = points[2];
@@ -71,10 +63,6 @@ Window* getRectangleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color
 }
 
 Window* getCircleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 2){
-        return 0;
-    }
-
     circleDirect(hdc, points, 2, color);
 
     Window* win = new Window;

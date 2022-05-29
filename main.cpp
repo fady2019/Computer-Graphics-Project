@@ -98,18 +98,31 @@ Window* window;
 
 void callShaper(HDC hdc){
     Point* points = 0;
+    int windowPointsSize=0;
     int pointsSize = 0;
+    int minExpectedPoints=0;
 
-    if(window != 0){
-        points = mergeTwoArray(window->points, window->pointsNum, sys.points, sys.count);
-        pointsSize = window->pointsNum + sys.count;
+    if(windowSys.shaper != 0){
+        minExpectedPoints = windowSys.minCount;
     }else{
-        points = sys.points;
+        if(window != 0){
+            points = mergeTwoArray(window->points, window->pointsNum, sys.points, sys.count);
+            windowPointsSize = window->pointsNum;
+        }else{
+            points = sys.points;
+        }
+
         pointsSize = sys.count;
+        minExpectedPoints = sys.minCount;
     }
 
-    sys.shaper(hdc, points, pointsSize, sys.color);
-    sys.count = 0;
+    if(pointsSize >= minExpectedPoints){
+        sys.shaper(hdc, points, pointsSize+windowPointsSize, sys.color);
+        sys.count = 0;
+    }else{
+        cout<<"The Points You Entered Are Not Enough!"<<endl;
+        cout<<"We Expected At Least "<<minExpectedPoints<<" Point(s)"<<endl;
+    }
 }
 
 /*  This function is called by the Windows function DispatchMessage()  */
@@ -124,22 +137,74 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
             switch(wParam)
             {
                 /// File Menu
-                case CLEAR_MENU:{clearScreen(hwnd); return 0;}
+                case CLEAR_MENU:{
+                    clearScreen(hwnd); 
+                    cout<<"Screen is Cleared Successfully!"<<endl;
+                    return 0;
+                }
                 case SAVE_MENU:{return 0;}
                 case LOAD_MENU:{return 0;}
                 /// Color Menu
-                case COLOR_BLACK:{windowSys.color = sys.color = BLACK_COLOR; return 0;}
-                case COLOR_RED:{windowSys.color = sys.color = RED_COLOR; return 0;}
-                case COLOR_YELLOW:{windowSys.color = sys.color = YELLOW_COLOR; return 0;}
-                case COLOR_ORANGE:{windowSys.color = sys.color = ORANGE_COLOR; return 0;}
-                case COLOR_GREEN:{windowSys.color = sys.color = GREEN_COLOR; return 0;}
-                case COLOR_BLUE:{windowSys.color = sys.color = BLUE_COLOR; return 0;}
-                case COLOR_PURPLE:{windowSys.color = sys.color = PURPLE_COLOR; return 0;}
-                case COLOR_TAEL:{windowSys.color = sys.color = TAEL_COLOR; return 0;}
-                case COLOR_GRAY:{windowSys.color = sys.color = GRAY_COLOR; return 0;}
-                case COLOR_CYAN:{windowSys.color = sys.color = CYAN_COLOR; return 0;}
-                case COLOR_GOLD:{windowSys.color = sys.color = GOLD_COLOR; return 0;}
-                case COLOR_SILVER:{windowSys.color = sys.color = SILVER_COLOR; return 0;}
+                case COLOR_BLACK:{
+                    windowSys.color = sys.color = BLACK_COLOR; 
+                    cout<<"Color is changed to Black"<<endl; 
+                    return 0;
+                }
+                case COLOR_RED:{
+                    windowSys.color = sys.color = RED_COLOR; 
+                    cout<<"Color is changed to Red"<<endl; 
+                    return 0;
+                }
+                case COLOR_YELLOW:{
+                    windowSys.color = sys.color = YELLOW_COLOR; 
+                    cout<<"Color is changed to Yellow"<<endl; 
+                    return 0;
+                }
+                case COLOR_ORANGE:{
+                    windowSys.color = sys.color = ORANGE_COLOR; 
+                    cout<<"Color is changed to Orange"<<endl; 
+                    return 0;
+                }
+                case COLOR_GREEN:{
+                    windowSys.color = sys.color = GREEN_COLOR; 
+                    cout<<"Color is changed to Green"<<endl; 
+                    return 0;
+                }
+                case COLOR_BLUE:{
+                    windowSys.color = sys.color = BLUE_COLOR; 
+                    cout<<"Color is changed to Blue"<<endl; 
+                    return 0;
+                }
+                case COLOR_PURPLE:{
+                    windowSys.color = sys.color = PURPLE_COLOR; 
+                    cout<<"Color is changed to Purple"<<endl;
+                    return 0;
+                }
+                case COLOR_TAEL:{
+                    windowSys.color = sys.color = TAEL_COLOR; 
+                    cout<<"Color is changed to Tael"<<endl; 
+                    return 0;
+                }
+                case COLOR_GRAY:{
+                    windowSys.color = sys.color = GRAY_COLOR; 
+                    cout<<"Color is changed to Gray"<<endl; 
+                    return 0;
+                }
+                case COLOR_CYAN:{
+                    windowSys.color = sys.color = CYAN_COLOR; 
+                    cout<<"Color is changed to Cyan"<<endl; 
+                    return 0;
+                }
+                case COLOR_GOLD:{
+                    windowSys.color = sys.color = GOLD_COLOR; 
+                    cout<<"Color is changed to Gold"<<endl; 
+                    return 0;
+                }
+                case COLOR_SILVER:{
+                    windowSys.color = sys.color = SILVER_COLOR; 
+                    cout<<"Color is changed to Silver"<<endl; 
+                    return 0;
+                }
             }
 
             window = 0;
@@ -156,72 +221,201 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
             switch(wParam)
             {
                 /// Line Menu
-                case LINE_DDA_MENU:{sys.maxCount=2; sys.shaper=&lineDDA; break;}
-                case LINE_MID_MENU:{sys.maxCount=2; sys.shaper=&lineMidpoint; break;}
-                case LINE_PARA_MENU:{sys.maxCount=2; sys.shaper=&lineParametric; break;}
+                case LINE_DDA_MENU:{
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&lineDDA; 
+                    break;
+                }
+                case LINE_MID_MENU:{
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&lineMidpoint; 
+                    break;
+                }
+                case LINE_PARA_MENU:{
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&lineParametric; 
+                    break;
+                }
                 /// Circle Menu
-                case CIR_DIRECT_MENU: {sys.maxCount=2; sys.shaper=&circleDirect; break;}
-                case CIR_POLAR_MENU: {sys.maxCount=2; sys.shaper=&circlePolar; break;}
-                case CIR_ITER_POLAR_MENU: {sys.maxCount=2; sys.shaper=&circleIterativePolar; break;}
-                case CIR_MID_MENU: {sys.maxCount=2; sys.shaper=&circleMidpoint; break;}
-                case CIR_MOD_MID_MENU: {sys.maxCount=2; sys.shaper=&circleModifiedMidpoint; break;}
+                case CIR_DIRECT_MENU: {
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&circleDirect; 
+                    break;
+                }
+                case CIR_POLAR_MENU: {
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&circlePolar; 
+                    break;
+                }
+                case CIR_ITER_POLAR_MENU: {
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&circleIterativePolar; 
+                    break;
+                }
+                case CIR_MID_MENU: {
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&circleMidpoint; 
+                    break;
+                }
+                case CIR_MOD_MID_MENU: {
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&circleModifiedMidpoint; 
+                    break;
+                }
                 /// Ellipse Menu
-                case ELL_DIRECT_MENU: {sys.maxCount=3; sys.shaper=&ellipseDirect; break;}
-                case ELL_POLAR_MENU: {sys.maxCount=3; sys.shaper=&ellipsePolar; break;}
-                case ELL_MID_MENU: {sys.maxCount=3; sys.shaper=&ellipseMidpoint; break;}
+                case ELL_DIRECT_MENU: {
+                    sys.minCount = sys.maxCount = 3; 
+                    sys.shaper=&ellipseDirect; 
+                    break;
+                }
+                case ELL_POLAR_MENU: {
+                    sys.minCount = sys.maxCount = 3; 
+                    sys.shaper=&ellipsePolar; 
+                    break;
+                }
+                case ELL_MID_MENU: {
+                    sys.minCount = sys.maxCount = 3; 
+                    sys.shaper=&ellipseMidpoint; 
+                    break;
+                }
                 /// Curve Menu
-                case CURVE_HERMIT_MENU: {sys.maxCount=4; sys.shaper=&hermitCurve; break;}
-                case CURVE_BEZIER_MENU: {sys.maxCount=4; sys.shaper=&bezierCurve; break;}
-                case CURVE_CAR_SPL_MENU: {sys.maxCount=INT_MAX; sys.shaper=&cardinalSplineCurve; break;}
+                case CURVE_HERMIT_MENU: {
+                    sys.minCount = sys.maxCount = 4; 
+                    sys.shaper=&hermitCurve; 
+                    break;
+                }
+                case CURVE_BEZIER_MENU: {
+                    sys.minCount = sys.maxCount = 4; 
+                    sys.shaper=&bezierCurve; 
+                    break;
+                }
+                case CURVE_CAR_SPL_MENU: {
+                    sys.minCount = 2;
+                    sys.maxCount=INT_MAX; 
+                    sys.shaper=&cardinalSplineCurve; break;
+                }
                 /// Filling Menu
-                case FILLING_CIR_WITH_LINES_Q1_MENU: {sys.maxCount=2; sys.shaper=&fillingQuarter1ByLines; break;}
-                case FILLING_CIR_WITH_LINES_Q2_MENU: {sys.maxCount=2; sys.shaper=&fillingQuarter2ByLines; break;}
-                case FILLING_CIR_WITH_LINES_Q3_MENU: {sys.maxCount=2; sys.shaper=&fillingQuarter3ByLines; break;}
-                case FILLING_CIR_WITH_LINES_Q4_MENU: {sys.maxCount=2; sys.shaper=&fillingQuarter4ByLines; break;}
-                case FILLING_CIR_WITH_CIRS_Q1_MENU: {sys.maxCount=2; sys.shaper=&fillingQuarter1ByCircles; break;}
-                case FILLING_CIR_WITH_CIRS_Q2_MENU: {sys.maxCount=2; sys.shaper=&fillingQuarter2ByCircles; break;}
-                case FILLING_CIR_WITH_CIRS_Q3_MENU: {sys.maxCount=2; sys.shaper=&fillingQuarter3ByCircles; break;}
-                case FILLING_CIR_WITH_CIRS_Q4_MENU: {sys.maxCount=2; sys.shaper=&fillingQuarter4ByCircles; break;}
-                case FILLING_SQUARE_WITH_HERMIT_MENU: {sys.maxCount=2; sys.shaper=&fillingSquareWithHermitCurve; break;}
-                case FILLING_REC_WITH_BEZIER_MENU: {sys.maxCount=3; sys.shaper=&fillingRectangleWithBezierCurve; break;}
-                case FILLING_CONVEX_MENU: {sys.maxCount=INT_MAX; sys.shaper=&fillingPolygonConvex; break;}
-                case FILLING_NON_CONVEX_MENU: {sys.maxCount=INT_MAX; sys.shaper=&fillingPolygonNonConvex; break;}
-                case FILLING_RECUR_FF_MENU: {sys.maxCount=2; sys.shaper=&recursiveFloodFill; break;}
-                case FILLING_NON_RECUR_FF_MENU: {sys.maxCount=2; sys.shaper=&nonRecursiveFloodFill; break;}
+                case FILLING_CIR_WITH_LINES_Q1_MENU: {
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&fillingQuarter1ByLines; 
+                    break;
+                }
+                case FILLING_CIR_WITH_LINES_Q2_MENU: {
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&fillingQuarter2ByLines; 
+                    break;
+                }
+                case FILLING_CIR_WITH_LINES_Q3_MENU: {
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&fillingQuarter3ByLines; 
+                    break;
+                }
+                case FILLING_CIR_WITH_LINES_Q4_MENU: {
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&fillingQuarter4ByLines; 
+                    break;
+                }
+                case FILLING_CIR_WITH_CIRS_Q1_MENU: {
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&fillingQuarter1ByCircles; 
+                    break;
+                }
+                case FILLING_CIR_WITH_CIRS_Q2_MENU: {
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&fillingQuarter2ByCircles; 
+                    break;
+                }
+                case FILLING_CIR_WITH_CIRS_Q3_MENU: {
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&fillingQuarter3ByCircles; 
+                    break;
+                }
+                case FILLING_CIR_WITH_CIRS_Q4_MENU: {
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&fillingQuarter4ByCircles; 
+                    break;
+                }
+                case FILLING_SQUARE_WITH_HERMIT_MENU: {
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&fillingSquareWithHermitCurve; 
+                    break;
+                }
+                case FILLING_REC_WITH_BEZIER_MENU: {
+                    sys.minCount = sys.maxCount = 3; 
+                    sys.shaper=&fillingRectangleWithBezierCurve; 
+                    break;
+                }
+                case FILLING_CONVEX_MENU: {
+                    sys.minCount = 3;
+                    sys.maxCount = INT_MAX; 
+                    sys.shaper=&fillingPolygonConvex; 
+                    break;
+                }
+                case FILLING_NON_CONVEX_MENU: {
+                    sys.minCount = 3;
+                    sys.maxCount = INT_MAX; 
+                    sys.shaper=&fillingPolygonNonConvex; 
+                    break;
+                }
+                case FILLING_RECUR_FF_MENU: {
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&recursiveFloodFill; 
+                    break;
+                }
+                case FILLING_NON_RECUR_FF_MENU: {
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&nonRecursiveFloodFill; 
+                    break;
+                }
                 /// Clipping Menu
                 case CLIPPING_REC_WIN_POINT_MENU: {
-                    windowSys.maxCount=3; windowSys.shaper=getRectangleWindow;
-                    sys.maxCount=1; sys.shaper=&clippingPointWithSquareOrRectangleWindow;
+                    windowSys.minCount = windowSys.maxCount = 3; 
+                    windowSys.shaper=getRectangleWindow;
+                    sys.minCount = sys.maxCount = 1; 
+                    sys.shaper=&clippingPointWithSquareOrRectangleWindow;
                     break;
                 }
                 case CLIPPING_REC_WIN_LINE_MENU: {
-                    windowSys.maxCount=3; windowSys.shaper=getRectangleWindow;
-                    sys.maxCount=2; sys.shaper=&clippingLineWithSquareOrRectangleWindow;
+                    windowSys.minCount = windowSys.maxCount=3; 
+                    windowSys.shaper=getRectangleWindow;
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&clippingLineWithSquareOrRectangleWindow;
                     break;
                 }
                 case CLIPPING_REC_WIN_POL_MENU: {
-                    windowSys.maxCount=3; windowSys.shaper=getRectangleWindow;
-                    sys.maxCount=4; sys.shaper=&clippingPolygonWithRectangleWindow;
+                    windowSys.minCount = windowSys.maxCount = 3; 
+                    windowSys.shaper = getRectangleWindow;
+                    sys.minCount = 3;
+                    sys.maxCount = INT_MAX; 
+                    sys.shaper=&clippingPolygonWithRectangleWindow;
                     break;
                 }
                 case CLIPPING_SQUARE_WIN_POINT_MENU: {
-                    windowSys.maxCount=2; windowSys.shaper=getSquareWindow;
-                    sys.maxCount=1; sys.shaper=&clippingPointWithSquareOrRectangleWindow;
+                    windowSys.minCount = windowSys.maxCount = 2; 
+                    windowSys.shaper=getSquareWindow;
+                    sys.minCount = sys.maxCount = 1; 
+                    sys.shaper=&clippingPointWithSquareOrRectangleWindow;
                     break;
                 }
                 case CLIPPING_SQUARE_WIN_LINE_MENU: {
-                    windowSys.maxCount=2; windowSys.shaper=getSquareWindow;
-                    sys.maxCount=2; sys.shaper=&clippingLineWithSquareOrRectangleWindow;
+                    windowSys.minCount = windowSys.maxCount = 2; 
+                    windowSys.shaper=getSquareWindow;
+                    sys.minCount = sys.maxCount = 2; 
+                    sys.shaper=&clippingLineWithSquareOrRectangleWindow;
                     break;
                 }
                 case CLIPPING_CIR_WIN_POINT_MENU: {
-                    windowSys.maxCount=2; windowSys.shaper=getCircleWindow;
-                    sys.maxCount=1; sys.shaper=&clippingPointWithCircleWindow;
+                    windowSys.minCount = windowSys.maxCount = 2;
+                    windowSys.shaper=getCircleWindow;
+                    sys.minCount = sys.maxCount = 1; 
+                    sys.shaper=&clippingPointWithCircleWindow;
                     break;
                 }
                 case CLIPPING_CIR_WIN_LINE_MENU: {
-                    windowSys.maxCount=2; windowSys.shaper=getCircleWindow;
-                    sys.maxCount=2; sys.shaper=&clippingLineWithCircleWindow;
+                    windowSys.minCount = windowSys.maxCount = 2;
+                    windowSys.shaper=getCircleWindow;
+                    sys.minCount = sys.maxCount = 2;  
+                    sys.shaper=&clippingLineWithCircleWindow;
                     break;
                 }
             }
@@ -243,7 +437,6 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                     window = windowSys.shaper(hdc, windowSys.points, windowSys.count, windowSys.color);
                     windowSys.shaper = 0;
                 }
-
                 break;
             }
 
@@ -251,14 +444,12 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
             if(sys.count == sys.maxCount){
                 callShaper(hdc);
             }
-
             break;
         }
         case WM_RBUTTONDOWN:{
             if(sys.shaper){
                 callShaper(hdc);
             }
-
             break;
         }
         case WM_CREATE:

@@ -4,10 +4,6 @@
 #include "Lines.h"
 
 void drawSquareOrRectangle(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 4){
-        return;
-    }
-
     for(int i=0; i<4; i++){
         Point line[2] = {Point(points[i].x, points[i].y)};
 
@@ -22,10 +18,6 @@ void drawSquareOrRectangle(HDC hdc, Point* points, int pointsNum, COLORREF color
 }
 
 void drawPolygon(HDC hdc, Point* points, int pointsNum, COLORREF color){
-    if(pointsNum < 3){
-        return;
-    }
-
     Point p1 = points[pointsNum-1];
 
     for(int i=0; i<pointsNum; i++){
