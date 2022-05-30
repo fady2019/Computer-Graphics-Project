@@ -198,21 +198,25 @@ void clippingPolygonWithRectangleWindow(HDC hdc, Point* points, int pointsNum, C
     vlist=ClipWithEdge(vlist,sqWin[0].x,InLeft,VVIntersect);
     if(vlist.size()==0)
     {
+        cout<<"all Polygon points are outside"<<endl;
         return;
     }
     vlist=ClipWithEdge(vlist,sqWin[0].y,InTop,HHIntersect);
     if(vlist.size()==0)
     {
+        cout<<"all Polygon points are outside"<<endl;
         return;
     }
     vlist=ClipWithEdge(vlist,sqWin[2].x,InRight,VVIntersect);
     if(vlist.size()==0)
     {
+        cout<<"all Polygon points are outside"<<endl;
         return;
     }
     vlist=ClipWithEdge(vlist,sqWin[2].y,InBottom,HHIntersect);
     if(vlist.size()==0)
     {
+        cout<<"all Polygon points are outside"<<endl;
         return;
     }
     Point v1=vlist[vlist.size()-1];
