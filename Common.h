@@ -30,6 +30,11 @@ struct Point
         this->y = y;
     }
 
+    Point copy(){
+        Point copiedPoint(x,y);
+        return copiedPoint;
+    }
+
     Point operator-(Point p2)
     {
         return Point(x-p2.x, y-p2.y);
@@ -49,13 +54,29 @@ struct Point
 template <typename T>
 struct System
 {
-    Point points[100];
+    Point points[20];
     int count=0;
     int minCount=0;
     int maxCount=0;
     T (*shaper) (HDC, Point* , int, COLORREF) = 0;
     MenuIDs mode;
     COLORREF color = GOLD_COLOR;
+
+    System<void> copy(){
+        System<void> copy;
+
+        for(int i=0; i<this->count; i++){
+            copy.points[i] = this->points[i].copy();
+        }
+
+        copy.mode = this->mode;
+        copy.color = this->color;
+        copy.minCount = this->minCount;
+        copy.maxCount = this->maxCount;
+        copy.count = this->count;
+
+        return copy;
+    }
 };
 
 

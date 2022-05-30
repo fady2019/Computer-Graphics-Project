@@ -12,14 +12,8 @@
 
 #include "Menus.h"
 #include "Common.h"
-#include "Lines.h"
-#include "Circles.h"
-#include "Ellipses.h"
-#include "Curves.h"
-#include "Filling.h"
-#include "Clipping.h"
-#include "Files.h"
 #include "ShapesWindow.h"
+#include "Controller.h"
 
 using namespace std;
 
@@ -28,8 +22,6 @@ LRESULT CALLBACK WindowProcedure (HWND, UINT, WPARAM, LPARAM);
 
 /*  Make the class name into a global variable  */
 TCHAR szClassName[ ] = _T("CodeBlocksWindowsApp");
-
-void createOwnMenu(HWND);
 
 int WINAPI WinMain (HINSTANCE hThisInstance,
                      HINSTANCE hPrevInstance,
@@ -93,14 +85,20 @@ int WINAPI WinMain (HINSTANCE hThisInstance,
     return messages.wParam;
 }
 
-
+HDC hdc;
 System<void> sys;
 System<Window*> windowSys;
 Window* window;
-vector<pair<int,System<void>>> systemsInput;
-vector<pair<int,System<void>>> systemsOutput;
+vector<pair<int,System<void>>> systems;
 
-void callShaper(HDC hdc){
+void resetSys(){
+    windowSys.shaper=0;
+    windowSys.count=0;
+    sys.shaper = 0;
+    sys.count = 0;
+}
+
+void callShaper(bool saveSys=true){
     Point* points = 0;
     int windowPointsSize=0;
     int pointsSize = 0;
@@ -121,7 +119,9 @@ void callShaper(HDC hdc){
     }
 
     if(pointsSize >= minExpectedPoints){
-        systemsInput.push_back(make_pair(0,sys));
+        if(saveSys){
+            systems.push_back(make_pair(0, sys.copy()));
+        }
         sys.shaper(hdc, points, pointsSize+windowPointsSize, sys.color);
         sys.count = 0;
     }else{
@@ -130,71 +130,94 @@ void callShaper(HDC hdc){
     }
 }
 
+// --------------------------------------
+// ---------- FILE FUNCTIONS ------------
+// --------------------------------------
+void clearScreen(HWND hwnd){
+    InvalidateRect (hwnd, NULL, TRUE);
+}
 
 void writeOnFile(){
     ofstream MyFile("systems.txt");
-    for(int i = 0 ; i < systemsInput.size() ; i++)
+    
+    for(int i = 0 ; i < systems.size() ; i++)
     {
-        MyFile << systemsInput[i].first << " ";
-        MyFile << systemsInput[i].second.color << " ";  // color
-        MyFile << systemsInput[i].second.mode << " ";   // mode
-        MyFile << systemsInput[i].second.count << " ";  // count
-        for(int j = 0 ; j < systemsInput[i].second.count ; j++)
+        MyFile << systems[i].first << " ";
+        MyFile << systems[i].second.color << " ";  // color
+        MyFile << systems[i].second.mode << " ";   // mode
+        MyFile << systems[i].second.count << " ";  // count
+        for(int j = 0 ; j < systems[i].second.count ; j++)
         {
-            MyFile << systemsInput[i].second.points[j].x << " " << systemsInput[i].second.points[j].y << " ";
+            MyFile << systems[i].second.points[j].x << " " << systems[i].second.points[j].y << " ";
         }
         MyFile << "\n" ;
     }
+
     MyFile.close();
 }
-
 
 void readFromFile(){
     ifstream MyReadFile("systems.txt");
 
-    bool afterMode = false;
-    int number, mode;
-    int pointX, pointY;
-    Point points[100];
-    int type; // 0=system , 1=Window
+    int mode, type;
+    
     while(MyReadFile >> type)
     {
-        System<void> sys;
-        MyReadFile >> sys.color;
-        MyReadFile >> mode;
-        sys.mode = (MenuIDs)mode;
-        MyReadFile >> number;
-        sys.count = number;
-        for(int i = 0; i < sys.count ; i++)
-        {
-            MyReadFile >> pointX ;
-            MyReadFile >> pointY ;
-            sys.points[i] = Point(pointX, pointY);
-        }
-        systemsOutput.push_back(make_pair(type,sys));
-    }
+        resetSys();
 
-    for(int i = 0 ; i < systemsOutput.size() ; i++)
-    {
-        cout << systemsOutput[i].first<<"\n";
-        cout << systemsOutput[i].second.color << "\n";
-        cout << systemsOutput[i].second.mode << "\n";
-        cout << systemsOutput[i].second.count << "\n" ;
-        for(int j = 0 ; j < systemsOutput[i].second.count; j++)
-        {
-            cout << systemsOutput[i].second.points[j].x << " " << systemsOutput[i].second.points[j].y  << "\n";
+        if(type == 1)
+        { // window sys
+            MyReadFile >> windowSys.color;
+            MyReadFile >> mode;
+            windowSys.mode = (MenuIDs)mode;
+            MyReadFile >> windowSys.count;
+
+            for(int i = 0; i < windowSys.count ; i++)
+            {
+                MyReadFile >> windowSys.points[i].x ;
+                MyReadFile >> windowSys.points[i].y ;
+            }
+
+            setShaper(windowSys.mode, sys, windowSys);
+
+            window = windowSys.shaper(hdc, windowSys.points, windowSys.count, windowSys.color);
+
+            systems.push_back(make_pair(type,windowSys.copy()));
         }
-        cout << "--------------------\n";
+        else if(type == 0)
+        { // shape sys
+            MyReadFile >> sys.color;
+            MyReadFile >> mode;
+            sys.mode = (MenuIDs)mode;
+            MyReadFile >> sys.count;
+
+            for(int i = 0; i < sys.count ; i++)
+            {
+                MyReadFile >> sys.points[i].x ;
+                MyReadFile >> sys.points[i].y ;
+            }
+
+            setShaper(sys.mode, sys, windowSys);
+
+            if(windowSys.shaper == 0){
+                window = 0;
+            }else{
+                windowSys.shaper = 0;
+            }
+
+            systems.push_back(make_pair(type, sys.copy()));
+
+            callShaper(false);
+        }
     }
 
     MyReadFile.close();
 }
 
-
 /*  This function is called by the Windows function DispatchMessage()  */
 LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    static HDC hdc = GetDC(hwnd);
+    hdc = GetDC(hwnd);
 
     switch (message)                  /* handle the messages */
     {
@@ -205,18 +228,19 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
                 /// File Menu
                 case CLEAR_MENU:{
                     clearScreen(hwnd);
-                    systemsInput.clear();
+                    systems.clear();
                     cout<<"Screen is Cleared Successfully!"<<endl;
                     return 0;
                 }
                 case SAVE_MENU:{
                     writeOnFile();
-                    cout<<"Screen is Saved Successfully!"<<endl;
+                    cout<<"Shapes is Saved Successfully!"<<endl;
                     return 0;
                 }
                 case LOAD_MENU:{
+                    systems.clear();
                     readFromFile();
-                    cout<<"Screen is Loaded Successfully!"<<endl;
+                    cout<<"Shapes is Loaded Successfully!"<<endl;
                     return 0;
                 }
                 /// Color Menu
@@ -283,217 +307,10 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
             }
 
             window = 0;
-
-            windowSys.shaper=0;
-            windowSys.count=0;
-            windowSys.mode = (MenuIDs)wParam;
-
-            sys.shaper = 0;
-            sys.count = 0;
-            sys.mode = (MenuIDs)wParam;
-
-            cout<<"Current Mode Number: "<<sys.mode<<endl;
-            switch(wParam)
-            {
-                /// Line Menu
-                case LINE_DDA_MENU:{
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&lineDDA;
-                    break;
-                }
-                case LINE_MID_MENU:{
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&lineMidpoint;
-                    break;
-                }
-                case LINE_PARA_MENU:{
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&lineParametric;
-                    break;
-                }
-                /// Circle Menu
-                case CIR_DIRECT_MENU: {
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&circleDirect;
-                    break;
-                }
-                case CIR_POLAR_MENU: {
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&circlePolar;
-                    break;
-                }
-                case CIR_ITER_POLAR_MENU: {
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&circleIterativePolar;
-                    break;
-                }
-                case CIR_MID_MENU: {
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&circleMidpoint;
-                    break;
-                }
-                case CIR_MOD_MID_MENU: {
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&circleModifiedMidpoint;
-                    break;
-                }
-                /// Ellipse Menu
-                case ELL_DIRECT_MENU: {
-                    sys.minCount = sys.maxCount = 3;
-                    sys.shaper=&ellipseDirect;
-                    break;
-                }
-                case ELL_POLAR_MENU: {
-                    sys.minCount = sys.maxCount = 3;
-                    sys.shaper=&ellipsePolar;
-                    break;
-                }
-                case ELL_MID_MENU: {
-                    sys.minCount = sys.maxCount = 3;
-                    sys.shaper=&ellipseMidpoint;
-                    break;
-                }
-                /// Curve Menu
-                case CURVE_HERMIT_MENU: {
-                    sys.minCount = sys.maxCount = 4;
-                    sys.shaper=&hermitCurve;
-                    break;
-                }
-                case CURVE_BEZIER_MENU: {
-                    sys.minCount = sys.maxCount = 4;
-                    sys.shaper=&bezierCurve;
-                    break;
-                }
-                case CURVE_CAR_SPL_MENU: {
-                    sys.minCount = 2;
-                    sys.maxCount=INT_MAX;
-                    sys.shaper=&cardinalSplineCurve; break;
-                }
-                /// Filling Menu
-                case FILLING_CIR_WITH_LINES_Q1_MENU: {
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&fillingQuarter1ByLines;
-                    break;
-                }
-                case FILLING_CIR_WITH_LINES_Q2_MENU: {
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&fillingQuarter2ByLines;
-                    break;
-                }
-                case FILLING_CIR_WITH_LINES_Q3_MENU: {
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&fillingQuarter3ByLines;
-                    break;
-                }
-                case FILLING_CIR_WITH_LINES_Q4_MENU: {
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&fillingQuarter4ByLines;
-                    break;
-                }
-                case FILLING_CIR_WITH_CIRS_Q1_MENU: {
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&fillingQuarter1ByCircles;
-                    break;
-                }
-                case FILLING_CIR_WITH_CIRS_Q2_MENU: {
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&fillingQuarter2ByCircles;
-                    break;
-                }
-                case FILLING_CIR_WITH_CIRS_Q3_MENU: {
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&fillingQuarter3ByCircles;
-                    break;
-                }
-                case FILLING_CIR_WITH_CIRS_Q4_MENU: {
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&fillingQuarter4ByCircles;
-                    break;
-                }
-                case FILLING_SQUARE_WITH_HERMIT_MENU: {
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&fillingSquareWithHermitCurve;
-                    break;
-                }
-                case FILLING_REC_WITH_BEZIER_MENU: {
-                    sys.minCount = sys.maxCount = 3;
-                    sys.shaper=&fillingRectangleWithBezierCurve;
-                    break;
-                }
-                case FILLING_CONVEX_MENU: {
-                    sys.minCount = 3;
-                    sys.maxCount = INT_MAX;
-                    sys.shaper=&fillingPolygonConvex;
-                    break;
-                }
-                case FILLING_NON_CONVEX_MENU: {
-                    sys.minCount = 3;
-                    sys.maxCount = INT_MAX;
-                    sys.shaper=&fillingPolygonNonConvex;
-                    break;
-                }
-                case FILLING_RECUR_FF_MENU: {
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&recursiveFloodFill;
-                    break;
-                }
-                case FILLING_NON_RECUR_FF_MENU: {
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&nonRecursiveFloodFill;
-                    break;
-                }
-                /// Clipping Menu
-                case CLIPPING_REC_WIN_POINT_MENU: {
-                    windowSys.minCount = windowSys.maxCount = 3;
-                    windowSys.shaper=getRectangleWindow;
-                    sys.minCount = sys.maxCount = 1;
-                    sys.shaper=&clippingPointWithSquareOrRectangleWindow;
-                    break;
-                }
-                case CLIPPING_REC_WIN_LINE_MENU: {
-                    windowSys.minCount = windowSys.maxCount=3;
-                    windowSys.shaper=getRectangleWindow;
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&clippingLineWithSquareOrRectangleWindow;
-                    break;
-                }
-                case CLIPPING_REC_WIN_POL_MENU: {
-                    windowSys.minCount = windowSys.maxCount = 3;
-                    windowSys.shaper = getRectangleWindow;
-                    sys.minCount = 3;
-                    sys.maxCount = INT_MAX;
-                    sys.shaper=&clippingPolygonWithRectangleWindow;
-                    break;
-                }
-                case CLIPPING_SQUARE_WIN_POINT_MENU: {
-                    windowSys.minCount = windowSys.maxCount = 2;
-                    windowSys.shaper=getSquareWindow;
-                    sys.minCount = sys.maxCount = 1;
-                    sys.shaper=&clippingPointWithSquareOrRectangleWindow;
-                    break;
-                }
-                case CLIPPING_SQUARE_WIN_LINE_MENU: {
-                    windowSys.minCount = windowSys.maxCount = 2;
-                    windowSys.shaper=getSquareWindow;
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&clippingLineWithSquareOrRectangleWindow;
-                    break;
-                }
-                case CLIPPING_CIR_WIN_POINT_MENU: {
-                    windowSys.minCount = windowSys.maxCount = 2;
-                    windowSys.shaper=getCircleWindow;
-                    sys.minCount = sys.maxCount = 1;
-                    sys.shaper=&clippingPointWithCircleWindow;
-                    break;
-                }
-                case CLIPPING_CIR_WIN_LINE_MENU: {
-                    windowSys.minCount = windowSys.maxCount = 2;
-                    windowSys.shaper=getCircleWindow;
-                    sys.minCount = sys.maxCount = 2;
-                    sys.shaper=&clippingLineWithCircleWindow;
-                    break;
-                }
-            }
+            resetSys();
+            sys.mode =  windowSys.mode = (MenuIDs)wParam;
+            setShaper((MenuIDs)wParam, sys, windowSys);
+            
             break;
         }
 
@@ -509,6 +326,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
             if(windowSys.shaper != 0){
                 windowSys.points[windowSys.count++] = enteredPoint;
                 if(windowSys.count == windowSys.maxCount){
+                    systems.push_back(make_pair(1,windowSys.copy()));
                     window = windowSys.shaper(hdc, windowSys.points, windowSys.count, windowSys.color);
                     windowSys.shaper = 0;
                 }
@@ -517,13 +335,13 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
             sys.points[sys.count++] = enteredPoint;
             if(sys.count == sys.maxCount){
-                callShaper(hdc);
+                callShaper();
             }
             break;
         }
         case WM_RBUTTONDOWN:{
             if(sys.shaper){
-                callShaper(hdc);
+                callShaper();
             }
             break;
         }
