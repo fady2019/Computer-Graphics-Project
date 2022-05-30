@@ -43,12 +43,12 @@
 		<Unit filename="Clipping.h" />
 		<Unit filename="Common.cpp" />
 		<Unit filename="Common.h" />
+		<Unit filename="Controller.cpp" />
+		<Unit filename="Controller.h" />
 		<Unit filename="Curves.cpp" />
 		<Unit filename="Curves.h" />
 		<Unit filename="Ellipses.cpp" />
 		<Unit filename="Ellipses.h" />
-		<Unit filename="Files.cpp" />
-		<Unit filename="Files.h" />
 		<Unit filename="Filling.cpp" />
 		<Unit filename="Filling.h" />
 		<Unit filename="GeneralShapes.cpp" />
