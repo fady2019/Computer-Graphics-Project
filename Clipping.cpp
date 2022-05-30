@@ -7,8 +7,8 @@
 using namespace std;
 
 typedef vector<Point> VertexList;
-typedef bool (*IsInFunc)(Point& v,int edge);
-typedef Point (*IntersectFunc)(Point& v1,Point& v2,int edge);
+typedef bool (*IsInFunc)(Point v,int edge);
+typedef Point (*IntersectFunc)(Point v1,Point v2,int edge);
 
 /// Point Clipping with (Square & Rectangle) Window
 void clippingPointWithSquareOrRectangleWindow(HDC hdc, Point* points, int pointsNum, COLORREF color){
@@ -145,27 +145,27 @@ VertexList ClipWithEdge(VertexList p,int edge,IsInFunc In,IntersectFunc Intersec
     return OutList;
 }
 
-bool InLeft(Point& v,int edge)
+bool InLeft(Point v,int edge)
 {
     return v.x>=edge;
 }
 
-bool InRight(Point& v,int edge)
+bool InRight(Point v,int edge)
 {
     return v.x<=edge;
 }
 
-bool InTop(Point& v,int edge)
+bool InTop(Point v,int edge)
 {
     return v.y>=edge;
 }
 
-bool InBottom(Point& v,int edge)
+bool InBottom(Point v,int edge)
 {
     return v.y<=edge;
 }
 
-Point VVIntersect(Point& v1,Point& v2,int xedge)
+Point VVIntersect(Point v1,Point v2,int xedge)
 {
     Point res;
     res.x=xedge;
@@ -173,7 +173,7 @@ Point VVIntersect(Point& v1,Point& v2,int xedge)
     return res;
 }
 
-Point HHIntersect(Point& v1,Point& v2,int yedge)
+Point HHIntersect(Point v1,Point v2,int yedge)
 {
     Point res;
     res.y=yedge;
@@ -194,12 +194,27 @@ void clippingPolygonWithRectangleWindow(HDC hdc, Point* points, int pointsNum, C
     for(int i=0;i<pointsNum-4;i++)
     {
         vlist.push_back(Point(polygonPoints[i].x,polygonPoints[i].y));
-
     }
     vlist=ClipWithEdge(vlist,sqWin[0].x,InLeft,VVIntersect);
+    if(vlist.size()==0)
+    {
+        return;
+    }
     vlist=ClipWithEdge(vlist,sqWin[0].y,InTop,HHIntersect);
+    if(vlist.size()==0)
+    {
+        return;
+    }
     vlist=ClipWithEdge(vlist,sqWin[2].x,InRight,VVIntersect);
+    if(vlist.size()==0)
+    {
+        return;
+    }
     vlist=ClipWithEdge(vlist,sqWin[2].y,InBottom,HHIntersect);
+    if(vlist.size()==0)
+    {
+        return;
+    }
     Point v1=vlist[vlist.size()-1];
 
     for(int i=0;i<(int)vlist.size();i++)
