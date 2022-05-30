@@ -184,36 +184,31 @@ void drawCircle(HDC hdc, Point center, int radius, int quarter, COLORREF color){
     }
 }
 
-void fillingQuarterByCircles(HDC hdc, Point* points, int quarter, COLORREF color)
+void fillingQuarterByCircles(HDC hdc, Point* points, int PointNum, COLORREF color)
 {
     circleDirect(hdc, points, 2, color);
 
     int radius = getLineLen(points[0], points[1]);
 
+    int quarter=1;
+
+    while(true){
+        cout<<"Enter Quarter number (1:4): ";
+        cin >> quarter;
+
+        if(quarter >= 1 && quarter <= 4){
+            break;
+        }else{
+            cout<<"Invalid Quarter number!"<<endl;
+        }
+    }
+
+    cout<<"Entered Quarter: "<<quarter<<endl;
+
     for(int r=1; r<radius; r++)
     {
         drawCircle(hdc, points[0], r, quarter, color);
     }
-}
-
-void fillingQuarter1ByCircles(HDC hdc, Point* points, int pointsNum, COLORREF color)
-{
-    fillingQuarterByCircles(hdc, points, 1, color);
-}
-
-void fillingQuarter2ByCircles(HDC hdc, Point* points, int pointsNum, COLORREF color)
-{
-    fillingQuarterByCircles(hdc, points, 2, color);
-}
-
-void fillingQuarter3ByCircles(HDC hdc, Point* points, int pointsNum, COLORREF color)
-{
-    fillingQuarterByCircles(hdc, points, 3, color);
-}
-
-void fillingQuarter4ByCircles(HDC hdc, Point* points, int pointsNum, COLORREF color)
-{
-    fillingQuarterByCircles(hdc, points, 4, color);
 }
 
 /// Filling Square & Rectangle with Curves

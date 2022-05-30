@@ -114,24 +114,9 @@ void setShaper(MenuIDs mode, System<void>& sys, System<Window*>& windowSys){
             sys.shaper=&fillingQuarter4ByLines;
             break;
         }
-        case FILLING_CIR_WITH_CIRS_Q1_MENU: {
+        case FILLING_CIR_WITH_CIRS_MENU: {
             sys.minCount = sys.maxCount = 2;
-            sys.shaper=&fillingQuarter1ByCircles;
-            break;
-        }
-        case FILLING_CIR_WITH_CIRS_Q2_MENU: {
-            sys.minCount = sys.maxCount = 2;
-            sys.shaper=&fillingQuarter2ByCircles;
-            break;
-        }
-        case FILLING_CIR_WITH_CIRS_Q3_MENU: {
-            sys.minCount = sys.maxCount = 2;
-            sys.shaper=&fillingQuarter3ByCircles;
-            break;
-        }
-        case FILLING_CIR_WITH_CIRS_Q4_MENU: {
-            sys.minCount = sys.maxCount = 2;
-            sys.shaper=&fillingQuarter4ByCircles;
+            sys.shaper=&fillingQuarterByCircles;
             break;
         }
         case FILLING_SQUARE_WITH_HERMIT_MENU: {

@@ -139,7 +139,7 @@ void clearScreen(HWND hwnd){
 
 void writeOnFile(){
     ofstream MyFile("systems.txt");
-    
+
     for(int i = 0 ; i < systems.size() ; i++)
     {
         MyFile << systems[i].first << " ";
@@ -160,7 +160,7 @@ void readFromFile(){
     ifstream MyReadFile("systems.txt");
 
     int mode, type;
-    
+
     while(MyReadFile >> type)
     {
         resetSys();
@@ -310,7 +310,7 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
             resetSys();
             sys.mode =  windowSys.mode = (MenuIDs)wParam;
             setShaper((MenuIDs)wParam, sys, windowSys);
-            
+
             break;
         }
 

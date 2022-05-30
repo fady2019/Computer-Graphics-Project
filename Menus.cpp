@@ -99,22 +99,11 @@ HMENU createFillingCircleWithLinesPopupMenu(){
     return hFillingCircleWithLinesMenu;
 }
 
-HMENU createFillingCircleWithCirclesPopupMenu(){
-    HMENU hFillingCircleWithCirclesMenu = CreateMenu();
-
-    AppendMenu(hFillingCircleWithCirclesMenu, MF_STRING, FILLING_CIR_WITH_CIRS_Q1_MENU, "Quarter1");
-    AppendMenu(hFillingCircleWithCirclesMenu, MF_STRING, FILLING_CIR_WITH_CIRS_Q2_MENU, "Quarter2");
-    AppendMenu(hFillingCircleWithCirclesMenu, MF_STRING, FILLING_CIR_WITH_CIRS_Q3_MENU, "Quarter3");
-    AppendMenu(hFillingCircleWithCirclesMenu, MF_STRING, FILLING_CIR_WITH_CIRS_Q4_MENU, "Quarter4");
-
-    return hFillingCircleWithCirclesMenu;
-}
-
 HMENU createFillingPopupMenu(){
     HMENU hFillingMenu = CreateMenu();
 
     AppendMenu(hFillingMenu, MF_POPUP, (UINT_PTR)createFillingCircleWithLinesPopupMenu(), "Circle With Lines");
-    AppendMenu(hFillingMenu, MF_POPUP, (UINT_PTR)createFillingCircleWithCirclesPopupMenu(), "Circle With Circles");
+    AppendMenu(hFillingMenu, MF_STRING, FILLING_CIR_WITH_CIRS_MENU, "Circle With Circles");
     AppendMenu(hFillingMenu, MF_STRING, FILLING_SQUARE_WITH_HERMIT_MENU, "Square With Hermit");
     AppendMenu(hFillingMenu, MF_STRING, FILLING_REC_WITH_BEZIER_MENU, "Rectangle With Bezier");
     AppendMenu(hFillingMenu, MF_STRING, FILLING_CONVEX_MENU, "Convex");
